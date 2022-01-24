@@ -127,28 +127,28 @@ public class HomeController {
 	}
 	
 	// 제품 등록
-	@RequestMapping(value="/rigiProduct.cst", method = RequestMethod.POST)
-	public String regiproduct(HttpServletRequest req, HttpServletResponse res) throws IOException {
+	@RequestMapping(value="/regiProduct.cst", method = RequestMethod.POST)
+	public String regi_product(HttpSession session, HttpServletRequest req, HttpServletResponse res) throws IOException {
 	
 		try {
 			
 			res.setCharacterEncoding("UTF-8");
 			productVO vo = new productVO();
 			
-			vo.setCode(req.getParameter("user_name"));
-			vo.setName(req.getParameter("user_grade"));
-			vo.setTime(req.getParameter("user_phonenum"));
+			vo.setCode(req.getParameter("code"));
+			vo.setName(req.getParameter("name"));
+			vo.setTime(req.getParameter("time"));
 			
-			userService.regiproduct(vo);
-			alert("회원가입이 완료되었습니다",res);
+			userService.regi_product(vo);
+			//alert("제품등록이 완료되었습니다",res);
 			
 		}catch(Exception e){
-			alert("이미 등록된 제품 입니다.",res);
+			//alert("이미 등록된 제품 입니다.",res);
 			e.printStackTrace();
 		}finally {
 			
 		}
-		return "regi_product";
+		return "redirect:/new_product.cst";
 		
 	}
 	
@@ -417,6 +417,13 @@ public class HomeController {
 	public String registration(HttpServletRequest request) throws IOException {
 	
 		return "/new_registration";
+	}
+	
+	// 회원가입 페이지
+	@RequestMapping(value = "/new_product.cst")
+	public String new_product(HttpServletRequest request) throws IOException {
+	
+		return "/regi_product";
 	}
 	
 	@RequestMapping("/nobo.cst")

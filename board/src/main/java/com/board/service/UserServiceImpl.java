@@ -86,8 +86,8 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void regiproduct(productVO vo) throws Exception {
-		mapper.regiproduct(vo);
+	public void regi_product(productVO vo) throws Exception {
+		mapper.regi_product(vo);
 	}
 
 }

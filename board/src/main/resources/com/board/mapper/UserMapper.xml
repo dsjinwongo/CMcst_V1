@@ -38,6 +38,17 @@
 		select * from product
 	</select>
 	
+	<!-- 제품(등록) -->
+	<insert id = "regi_product">
+		insert into product(
+			<include refid = "productColumns"/>
+		) VALUES (
+			  #{code}
+			, #{name}
+			, #{time}
+		)	
+	</insert>
+	
 	<!-- 회원가입(등록) -->
 	<insert id = "register">
 		insert into user(

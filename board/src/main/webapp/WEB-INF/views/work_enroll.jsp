@@ -5,7 +5,6 @@
 <%@page import="java.util.Date"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="com.board.bean.global_bean"%>
 <%@ page import="java.io.PrintWriter, java.util.ArrayList, java.net.URLEncoder" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@page import="com.board.bean.global_bean"%>

@@ -45,6 +45,6 @@ public interface UserService {
 	public List<productVO> getProduct();
 	
 	//제품등록
-	public void regiproduct(productVO vo) throws Exception;
+	public void regi_product(productVO vo) throws Exception;
 
 }

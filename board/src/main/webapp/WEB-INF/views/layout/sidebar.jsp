@@ -31,7 +31,7 @@
 						<a href="cs.cst">current state</a><p></p>
 						<a href="regi.cst">new registragion</a><p></p>
 						<a href="work.cst">work enroll</a><p></p>
-						<a href="rigiProduct.cst">new product</a><p></p>
+						<a href="new_product.cst">new product</a><p></p>
 					</li>
 				</font>
 					<!--  opener sub menu list 
