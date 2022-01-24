@@ -89,5 +89,10 @@ public class UserServiceImpl implements UserService {
 	public void regi_product(productVO vo) throws Exception {
 		mapper.regi_product(vo);
 	}
+	
+	@Override
+	public void delete_product(String pcode) {
+		mapper.delete_product(pcode);
+	}
 
 }

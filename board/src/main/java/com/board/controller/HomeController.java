@@ -130,8 +130,7 @@ public class HomeController {
 	@RequestMapping(value="/regiProduct.cst", method = RequestMethod.POST)
 	public String regi_product(HttpSession session, HttpServletRequest req, HttpServletResponse res) throws IOException {
 	
-		try {
-			
+		try {			
 			res.setCharacterEncoding("UTF-8");
 			productVO vo = new productVO();
 			
@@ -281,6 +280,19 @@ public class HomeController {
        
         return "redirect:/work.cst";
     }
+    
+    //제품 삭제
+    @PostMapping("/deleteProduct.cst")
+    public String delete_product( HttpServletResponse res, HttpServletRequest req) {
+		res.setCharacterEncoding("UTF-8");
+		String pcode = req.getParameter("pcode");
+		
+		System.out.println(pcode);
+        userService.delete_product(pcode);
+       
+        return "redirect:/new_product.cst";
+    }
+    
     //데이터베이스에 진행중이라 표시하고 게계 시작 코드를 넘기는데 사용
     @RequestMapping("/startAction.cst")
     public String startAction( HttpServletResponse res, HttpServletRequest req) {
@@ -421,8 +433,10 @@ public class HomeController {
 	
 	// 회원가입 페이지
 	@RequestMapping(value = "/new_product.cst")
-	public String new_product(HttpServletRequest request) throws IOException {
+	public String new_product(HttpServletRequest request, Model model) throws IOException {
 	
+		model.addAttribute("product", userService.getProduct());
+		
 		return "/regi_product";
 	}
 	

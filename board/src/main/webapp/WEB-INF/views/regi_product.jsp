@@ -1,7 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.io.PrintWriter, java.util.ArrayList, java.net.URLEncoder" %>
+<%@ page import="java.net.URLEncoder" %>
 <%@page import="com.board.bean.global_bean"%>
+<%@taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%
 String userId = (String)session.getAttribute("userId");
 
@@ -105,6 +112,33 @@ boolean login = userId == null ? false : true;
 					
 						</font >
 						<!--  info 와 로그인 정보를 여기서 바로 하게 하면 좋을 것 같다. -->
+					</div>
+					<div style = "width:100%">
+						<table border="1px" id="curr_Table">
+							<thead>
+								<tr>
+									<th>제품코드</th>
+									<th>제품명</th>
+									<th>1대당 작업시간 (초)</th>	
+								</tr>
+							</thead>
+							<c:forEach items="${product}" var="product">
+            					<tr>
+                					<td><c:out value="${product.code}"/></td>
+               						<td><c:out value="${product.name}"/></td>
+                					<td><c:out value="${product.time}"/></td>
+                					
+                					<form method = "post" action = "deleteProduct.cst" id = delete_product>
+                                		<input type="hidden" name = "pcode" value = "${product.code}">
+                                   	    <td><input type="submit" value="삭제"/></td>
+                                    </form>
+                                    
+                                    <!-- 추후에 버튼 말고 a 태그에서 controller 작동 할 수 있는 방법을 알면 공간적으로 절약될듯.  -->
+            					</tr>
+       						</c:forEach>
+							<tbody id="currTbody"></tbody>
+							<tfoot> </tfoot>
+						</table>	
 					</div>
 				 </section>
 			</div>

@@ -70,5 +70,6 @@ constraint pk_code primary key(code)
 );
 
 ------------------
+// code 바뀌면 pcode 업데이트, pcode 존재하면 삭제제한
 alter table cur_table 
 add foreign key(pcode) references product(code) on update cascade on delete restrict;

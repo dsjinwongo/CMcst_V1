@@ -46,5 +46,8 @@ public interface UserService {
 	
 	//제품등록
 	public void regi_product(productVO vo) throws Exception;
+	
+	//제품삭제
+	public void delete_product(String pcode);
 
 }

@@ -49,6 +49,11 @@
 		)	
 	</insert>
 	
+	<!--  제품 삭제 -->
+	<delete id = "delete_product" parameterType = "String">
+		delete from product where code = #{pcode}
+	</delete>
+	
 	<!-- 회원가입(등록) -->
 	<insert id = "register">
 		insert into user(
