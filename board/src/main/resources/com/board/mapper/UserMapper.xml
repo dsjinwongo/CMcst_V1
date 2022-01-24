@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.mapper.UserMapper">
+	<!-- 회원가입 데이터 -->
+	<sql id="userColumns">
+		  user_name
+		, user_grade
+		, user_phonenum  
+		, user_department
+		, user_access
+		, user_id
+		, user_passward
+		
+	</sql>
+	
+	<!-- 현황판 데이터 -->
+	<sql id="currColumns">
+		  state
+		, pcode
+		, pname
+		, ordernum
+		, completenum
+		, rating
+		, ftime
+		, stime
+		, ttime
+	</sql>
+	
+	<!-- 제품목록 데이터 -->
+	<sql id="productColumns">
+		  code
+		, name
+		, time
+	</sql>
+	
+	<!--  제품코드 출력 -->
+	<select id = "getProduct" resultType = "com.board.model.productVO">
+		select * from product
+	</select>
+	
+	<!-- 회원가입(등록) -->
+	<insert id = "register">
+		insert into user(
+			<include refid = "userColumns"/>
+		) VALUES (
+			  #{userName}
+			, #{userGrade}
+			, #{userPhonenum}
+			, #{userDepartment}
+			, #{userAccess}
+			, #{userId}
+			, #{userPassward}
+		)	
+	</insert>
+	
+	<!--  로그인  -->
+	<select id = "login" parameterType = "String" resultType = "int">
+		SELECT COUNT(*) FROM user WHERE user_id = #{userId} AND user_passward = #{userPassward}
+	</select>
+	
+	<!--  권한 확인 -->
+	<select id = "checkAccess" parameterType = "String" resultType = "String">
+		Select user_access FROM user WHERE user_id = #{userId}
+	</select>
+		
+	<!--  현황판 등록 -->
+	<insert id = "enroll" useGeneratedKeys="true" keyProperty="tableindex">
+
+		insert into cur_table(
+			<include refid = "currColumns"/>
+		) VALUES (
+			  #{state}
+			, #{pcode}
+			, #{pname}
+			, #{ordernum}
+			, #{completenum}
+			, #{rating}
+			, #{ftime}
+			, #{stime}
+			, #{ttime}
+		)	
+	</insert>
+	
+	<!--  현황판 출력 -->
+	<select id = "getList" resultType = "com.board.model.boardVO">
+		select * from cur_table
+	</select>
+	
+	<!--  현황판 조회 usermapper와 mybatis 에만 존재 아직 미구현-->
+	<select id = "getSelect" resultType = "com.board.model.boardVO">
+		select index from cur_table where index = #{index}
+	</select>
+	
+	<!--  게시글 삭제 -->
+	<delete id = "delete" parameterType = "int">
+		delete from cur_table where tableindex = #{sindex}
+	</delete>
+	
+	<!-- 현황판 시작 업데이트 -->
+	<update id = "startAction" parameterType = "int">
+		update cur_table set state = "진행중", completenum = #{scompletenum}, rating = #{srating}, ttime = #{sttime} where tableindex = #{sindex}
+	</update>
+	
+	<!-- 현황판 중단 업데이트 -->
+	<update id = "stopAction" parameterType = "int">
+		update cur_table set state = "중단됨" where tableindex = #{sindex}
+	</update>
+	
+	<!--  현황판 완료 업데이트 -->
+	<update id = "completeAction" parameterType = "int">
+		update cur_table set state = "완료됨", ttime = "0" where tableindex = #{sindex}
+	</update>
+	
+	<!--  게시판 초기화 -->
+	<delete id = "resetAction">
+		truncate cur_table;
+	</delete>
+	
+	<!--  작동안함 -->
+	<select id = "outAction">
+	 	select * INTO OUTFILE 'TABLEDATA.CSV' FIELDS TERMINATED BY',' ENCLOSED BY'"' ESCAPED BY '\\' LINES TERMINATED BY '\n' FROM cur_table;
+	</select>
+</mapper>

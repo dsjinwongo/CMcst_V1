@@ -1,0 +1,74 @@
+***데이터 베이스 생성 전 먼저 읽어주세요
+데이터베이스는 ---------- 으로 나는 줄을 기점으로 ctrl + enter 을 사용해 넣어주세요
+
+예를 들면
+create database cstboard; 
+한줄을 친 후 ctrl + enter을 이용해 입력합니다
+
+이후 use cstboard;
+한줄을 친 후 ctrl + enter을 이용해 입력하는 순으로 진행합니다.
+
+만약 모든 코드를 쭉 복사해 붙일 경우 정상적인 코드임에도 제대로 데이터베이스가 작성되지 않을 수 있습니다.
+
+
+create database cstboard;
+--------------
+
+use cstboard;
+
+------------------
+
+create table cur_table(
+tableindex int not null  auto_increment,
+state varchar(45) not null,
+pcode varchar(45) not null,
+pname varchar(45) not null,
+ordernum int not null,
+completenum int not null,
+rating varchar(45) not null,
+ftime varchar(45) not null,
+stime varchar(45) not null,
+ttime varchar(45) not null,
+
+primary key(tableindex)
+);
+
+-------------------------------
+create table user(
+user_name varchar(20) not null,
+user_grade varchar(45) not null,
+user_phonenum varchar(45) not null,
+user_department varchar(45) not null,
+user_access varchar(45) not null,
+user_id varchar(45) not null,
+user_passward varchar(45) not null,
+primary key(user_id));
+
+///////
+또한 admin 계정을 미리 데이터베이스에 넣어주어야 합니다.
+처음에 user에 admin 계정을 넣어주어야 하는 이유는
+admin 계정을 처음에 insert 해주지 않으면 홈페이지에 들어가지 못하기 때문에 데이터베이스에서 처음에 insert 해주어야 합니다.
+
+------------------------
+INSERT into user(
+user_name,
+user_grade,
+user_phonenum,
+user_department,
+user_access,
+user_id,
+user_passward)
+values('admin','admin','admin','admin','A','admin','admin');
+
+---------------
+
+create table product(
+code varchar(45),
+name varchar(45) not null,
+time varchar(45) not null,
+constraint pk_code primary key(code)
+);
+
+------------------
+alter table cur_table 
+add foreign key(pcode) references product(code) on update cascade on delete restrict;
