@@ -86,7 +86,6 @@ public class HomeController {
 		out.println("alert('"+notice+"');");
 		out.println("</script>");
 		out.flush();
-		return;
 	}
 			
 	@RequestMapping("/client_send.cst")
@@ -128,7 +127,7 @@ public class HomeController {
 	
 	// 제품 등록
 	@RequestMapping(value="/regiProduct.cst", method = RequestMethod.POST)
-	public String regi_product(HttpSession session, HttpServletRequest req, HttpServletResponse res) throws IOException {
+	public String regi_product(HttpSession session, HttpServletRequest req, HttpServletResponse res, Model model) throws IOException {
 	
 		try {			
 			res.setCharacterEncoding("UTF-8");
@@ -139,18 +138,18 @@ public class HomeController {
 			vo.setTime(req.getParameter("time"));
 			
 			userService.regi_product(vo);
-			//alert("제품등록이 완료되었습니다",res);
+			alert("제품등록이 완료되었습니다",res);
 			
 		}catch(Exception e){
-			//alert("이미 등록된 제품 입니다.",res);
+			alert("이미 등록된 제품입니다.",res);
 			e.printStackTrace();
 		}finally {
 			
 		}
-		return "redirect:/new_product.cst";
+		model.addAttribute("product", userService.getProduct());
 		
+		return "/regi_product";
 	}
-	
 	
 	//회원가입 동작
 
@@ -179,7 +178,7 @@ public class HomeController {
 		}finally {
 			
 		}
-		return "/front_page";
+		return "/new_registration";
 		
 	}
 	
@@ -283,14 +282,23 @@ public class HomeController {
     
     //제품 삭제
     @PostMapping("/deleteProduct.cst")
-    public String delete_product( HttpServletResponse res, HttpServletRequest req) {
-		res.setCharacterEncoding("UTF-8");
-		String pcode = req.getParameter("pcode");
-		
-		System.out.println(pcode);
-        userService.delete_product(pcode);
+    public String delete_product( HttpServletResponse res, HttpServletRequest req, Model model) throws IOException {
+    	try {
+    		res.setCharacterEncoding("UTF-8");
+    		String pcode = req.getParameter("pcode");
+    		
+    		System.out.println(pcode);
+            userService.delete_product(pcode);
+            
+            alert("제품이 삭제되었습니다!", res);
+    	}
+    	catch(Exception e) {
+    		alert("(삭제불가)작업이 진행중인 제품입니다.",res);
+			e.printStackTrace();
+    	}
+    	model.addAttribute("product", userService.getProduct());
        
-        return "redirect:/new_product.cst";
+        return "/regi_product";
     }
     
     //데이터베이스에 진행중이라 표시하고 게계 시작 코드를 넘기는데 사용

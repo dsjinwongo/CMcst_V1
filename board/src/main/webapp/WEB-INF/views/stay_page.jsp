@@ -14,9 +14,7 @@ boolean login = userId == null ? false : true;
 	boolean access = userAccess.equals("C") ? true : false;
 	System.out.println(access);
 	//C 인 사람만 입력칸 버튼 누르지 못하게 할 예정
-%>	
-	아이디 "<%= userId%>"로 로그인 중입니다.
-	
+%>		
 <%
 	}else{
 		PrintWriter script = response.getWriter();
@@ -43,7 +41,7 @@ boolean login = userId == null ? false : true;
 	</script>
 	
 	<!--  layout body  -->
-	<body class="is-preload" onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="">
+	<body class="is-preload">
 		<!-- Wrapper -->
 		<div id="wrapper">
 			<div id="main">

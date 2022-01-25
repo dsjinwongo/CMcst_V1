@@ -12,7 +12,8 @@
     System.out.println(access);
 
 	if(login && access){
-	
+%>	
+<%
 	}else{
 		PrintWriter script = response.getWriter();
 		script.println("<script>");

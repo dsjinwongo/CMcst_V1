@@ -27,11 +27,11 @@
 				<ul>
 				<font size = "4em">
 					<li>
-						<a href="fp.cst">Homepage</a><p></p><!--  info 란도 이곳에 한번에 만들기. use button -->
+						<a href="stay.cst">Homepage</a><p></p><!--  info 란도 이곳에 한번에 만들기. use button -->
 						<a href="cs.cst">current state</a><p></p>
-						<a href="regi.cst">new registragion</a><p></p>
-						<a href="work.cst">work enroll</a><p></p>
 						<a href="new_product.cst">new product</a><p></p>
+						<a href="work.cst">work enroll</a><p></p>
+						<a href="regi.cst">new registragion</a><p></p>
 					</li>
 				</font>
 					<!--  opener sub menu list 
