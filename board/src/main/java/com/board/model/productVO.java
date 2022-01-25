@@ -11,4 +11,5 @@ public class productVO {
 	private String code;
 	private String name;
 	private String time;
+	private String bprocess;
 }

@@ -102,6 +102,11 @@ boolean login = userId == null ? false : true;
 	 window.history.forward(1);
 	 function noBack(){window.history.forward(1);}
 	</script>
+	<style>
+	select option[value=""][disabled] {
+		display: none;
+	}
+	</style>
 	<!--  layout body  -->
 	<body class="is-preload" onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="" >
 		<!-- Wrapper -->
@@ -142,7 +147,7 @@ boolean login = userId == null ? false : true;
 	                                	-->
 	                                	<td>
 	                                	<select class="text" name="pcode" required onchange="product_complete()">
-										    <option value="">제품코드</option>
+										    <option disabled selected>제품코드</option>
 										    <c:forEach items="${product}" var="product">
 										    	<option value="${product.code}"><c:out value="${product.code}"/></option>
 										    </c:forEach>

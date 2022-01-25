@@ -70,6 +70,11 @@ boolean login = userId == null ? false : true;
 	 window.history.forward(1);
 	 function noBack(){window.history.forward(1);}
 	</script>
+	<style>
+	select option[value=""][disabled] {
+		display: none;
+	}
+	</style>
 	<!--  layout body  -->
 	<body class="is-preload" onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="" >
 		<!-- Wrapper -->
@@ -99,7 +104,12 @@ boolean login = userId == null ? false : true;
 	                           	<strong><text>시간(초)</text></strong>
 	                               <input type="text" name="time" class="text" required="required"/>
 	                               <p></p>
-	                               
+	                            <select class="text" name="bprocess" required>
+	                            	<option disabled selected>후공정 여부</option>
+	                            	<option value="1">진행 함</option>
+	                            	<option value="0">진행하지 않음</option>
+	                            </select>
+	                               <p></p>
 	                               <div class="col-12">
 									<ul class="actions">
 										<li><input type="submit" value="등록" class="primary" /></li>
@@ -118,7 +128,8 @@ boolean login = userId == null ? false : true;
 								<tr>
 									<th>제품코드</th>
 									<th>제품명</th>
-									<th>1대당 작업시간 (초)</th>	
+									<th>1대당 작업시간 (초)</th>
+									<th>후공정 여부</th>	
 								</tr>
 							</thead>
 							<c:forEach items="${product}" var="product">
@@ -126,6 +137,7 @@ boolean login = userId == null ? false : true;
                 					<td><c:out value="${product.code}"/></td>
                						<td><c:out value="${product.name}"/></td>
                 					<td><c:out value="${product.time}"/></td>
+                					<td><c:out value="${product.bprocess}"/></td>
                 					
                 					<form method = "post" action = "deleteProduct.cst" id = delete_product>
                                 		<input type="hidden" name = "pcode" value = "${product.code}">

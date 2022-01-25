@@ -136,6 +136,7 @@ public class HomeController {
 			vo.setCode(req.getParameter("code"));
 			vo.setName(req.getParameter("name"));
 			vo.setTime(req.getParameter("time"));
+			vo.setBprocess(req.getParameter("bprocess"));
 			
 			userService.regi_product(vo);
 			alert("제품등록이 완료되었습니다",res);

@@ -31,6 +31,7 @@
 		  code
 		, name
 		, time
+		, bprocess
 	</sql>
 	
 	<!--  제품코드 출력 -->
@@ -46,6 +47,7 @@
 			  #{code}
 			, #{name}
 			, #{time}
+			, #{bprocess}
 		)	
 	</insert>
 	

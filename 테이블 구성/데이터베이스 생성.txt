@@ -66,6 +66,7 @@ create table product(
 code varchar(45),
 name varchar(45) not null,
 time varchar(45) not null,
+bprocess bool not null,
 constraint pk_code primary key(code)
 );
 
