@@ -146,7 +146,7 @@ boolean login = userId == null ? false : true;
 	                                   	<td><input type="submit" value="추가" class="primary" /></td>
 	                                	-->
 	                                	<td>
-	                                	<select class="text" name="pcode" required onchange="product_complete()">
+	                                	<select name="pcode" required onchange="product_complete()">
 										    <option disabled selected>제품코드</option>
 										    <c:forEach items="${product}" var="product">
 										    	<option value="${product.code}"><c:out value="${product.code}"/></option>

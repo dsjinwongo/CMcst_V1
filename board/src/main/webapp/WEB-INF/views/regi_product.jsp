@@ -74,6 +74,9 @@ boolean login = userId == null ? false : true;
 	select option[value=""][disabled] {
 		display: none;
 	}
+	.content{
+	padding-right: 10px;
+	}
 	</style>
 	<!--  layout body  -->
 	<body class="is-preload" onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="" >
@@ -104,6 +107,8 @@ boolean login = userId == null ? false : true;
 	                           	<strong><text>시간(초)</text></strong>
 	                               <input type="text" name="time" class="text" required="required"/>
 	                               <p></p>
+	                               
+	                            <strong><text>후공정 여부</text></strong>
 	                            <select class="text" name="bprocess" required>
 	                            	<option disabled selected>후공정 여부</option>
 	                            	<option value="1">진행 함</option>
@@ -129,7 +134,6 @@ boolean login = userId == null ? false : true;
 									<th>제품코드</th>
 									<th>제품명</th>
 									<th>1대당 작업시간 (초)</th>
-									<th>후공정 여부</th>	
 								</tr>
 							</thead>
 							<c:forEach items="${product}" var="product">
@@ -137,7 +141,6 @@ boolean login = userId == null ? false : true;
                 					<td><c:out value="${product.code}"/></td>
                						<td><c:out value="${product.name}"/></td>
                 					<td><c:out value="${product.time}"/></td>
-                					<td><c:out value="${product.bprocess}"/></td>
                 					
                 					<form method = "post" action = "deleteProduct.cst" id = delete_product>
                                 		<input type="hidden" name = "pcode" value = "${product.code}">
