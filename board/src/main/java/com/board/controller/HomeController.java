@@ -55,7 +55,6 @@ public class HomeController {
 	private NettySocketClient client;
 	private Thread thread;
 	private global_bean gb = new global_bean();
-	private int flag = 0;
 	private int sindex = 0;
 	private int sordernum = 0;
 	private int scompletenum = 0;
@@ -336,7 +335,7 @@ public class HomeController {
 		gb.setSindex(sindex);
 
 		//gb.setSordernum(sordernum);
-		flag = 1;
+		gb.setFlag(1);
 		
 		//데이터베이스에 주기적으로 데이터를 받아 넣어주는 함수
 		syncAction();
@@ -362,7 +361,7 @@ public class HomeController {
 		if(sindex != gb.getSindex()) {
 			System.out.println("작업중인 인덱스와 다른 인덱스의 중지 버튼을 누르셨습니다. 기존 작업이 계속됩니다.");
 		}else {
-			flag = 0;
+			gb.setFlag(0);
         	userService.stopAction(sindex);
         	//0번 인덱스는 존재하지 않는 인덱스 이므로 데이터베이스에 연결되지 않는다.
         	sindex = 0;
@@ -385,7 +384,7 @@ public class HomeController {
     @Scheduled(fixedRate = 6000)
     public void syncAction() {
     	
-    	if(flag == 1) {
+    	if(gb.getFlag() == 1) {
     		System.out.println("정상 호출 중 입니다.");
     		//curr_temper을 completenum으로 사용함.
     		float temp = ((float)gb.getCurrent_temper()/sordernum)*100;
@@ -404,7 +403,7 @@ public class HomeController {
         	if(sordernum <= (int)gb.getCurrent_temper()) {
             	//완료되면 완료상태를 한번 데이터베이스에 저장하고 완료되었습니다 문구 표시 후 flag = 0으로 만들어 작업 중지 다음 작업 준비.
         		userService.startAction(sindex, gb.getCurrent_temper(),srating,sttime);
-        		flag = 0;
+        		gb.setFlag(0);
         		System.out.println("완료되었습니다");
         		
         		//데이터베이스 상태를 완료됨으로 변경.

@@ -94,13 +94,15 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception{
 		
-		
+		if(precurrtemp != gb.getCurrent_temper())
+			gb.setSindex(1);
+			
 		// TODO Auto-generated method stub
 		//System.out.println(gb.getSindex());
 		//System.out.println(gb.getCurrent_temper());
 		if(precurrtemp != gb.getCurrent_temper() && gb.getSindex()!=0) {
 			precurrtemp = gb.getCurrent_temper();
-			
+			gb.setFlag(1);
 		}else {
 			System.out.println("대기중 입니다");
 		}
