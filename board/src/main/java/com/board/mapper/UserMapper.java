@@ -33,6 +33,12 @@ public interface UserMapper {
 	//현황판 삭제 @param을 해주지 않았을 경우 mysql 문을 사용할때, paraetersetting 부분에서 오류가 날 수 있다.
 	public void delete(@Param("sindex")int sindex);
 	
+	//tableindex
+	public void updateindex1();
+	public void updateindex2();
+	public void updateindex3();
+	
+	
 	//시작버튼 동작
 	public void startAction(@Param("sindex")int sindex,@Param("scompletenum")int scompletenum,@Param("srating")int srating, @Param("sttime")String sttime);
 	

@@ -49,6 +49,19 @@ public class UserServiceImpl implements UserService {
 	public void delete(int sindex) {
 		mapper.delete(sindex);
 	}
+	
+	@Override
+	public void updateindex1() {
+		mapper.updateindex1();
+	}
+	@Override
+	public void updateindex2() {
+		mapper.updateindex2();
+	}
+	@Override
+	public void updateindex3() {
+		mapper.updateindex3();
+	}
 
 	@Override
 	public int getSelect(int index) {

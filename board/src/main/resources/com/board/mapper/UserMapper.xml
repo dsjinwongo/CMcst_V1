@@ -83,7 +83,6 @@
 		
 	<!--  현황판 등록 -->
 	<insert id = "enroll" useGeneratedKeys="true" keyProperty="tableindex">
-
 		insert into cur_table(
 			<include refid = "currColumns"/>
 		) VALUES (
@@ -99,6 +98,8 @@
 		)	
 	</insert>
 	
+	
+	
 	<!--  현황판 출력 -->
 	<select id = "getList" resultType = "com.board.model.boardVO">
 		select * from cur_table
@@ -113,6 +114,18 @@
 	<delete id = "delete" parameterType = "int">
 		delete from cur_table where tableindex = #{sindex}
 	</delete>
+	
+	<update id="updateindex1">
+		alter table cur_table AUTO_INCREMENT=1
+	</update>
+	
+	<update id="updateindex2">
+		set @COUNT=0
+	</update>
+	
+	<update id="updateindex3">
+		update cur_table set tableindex=@COUNT:=@COUNT+1
+	</update>		
 	
 	<!-- 현황판 시작 업데이트 -->
 	<update id = "startAction">

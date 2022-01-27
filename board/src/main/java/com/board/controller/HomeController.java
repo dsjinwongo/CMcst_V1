@@ -238,6 +238,10 @@ public class HomeController {
 			boardvo.setTtime(Integer.toString(stime)); // 예상완료시간 = 예상 작업시간 후 (분)
 	
 			userService.enroll(boardvo);
+			userService.updateindex1();
+	        userService.updateindex2();
+	        userService.updateindex3();
+	        
 			return "redirect:/work.cst";
 	}
 	
@@ -286,6 +290,9 @@ public class HomeController {
 		int sindex = Integer.parseInt(req.getParameter("sindex"));
 		System.out.println(sindex);
         userService.delete(sindex);
+        userService.updateindex1();
+        userService.updateindex2();
+        userService.updateindex3();
        
         return "redirect:/work.cst";
     }
