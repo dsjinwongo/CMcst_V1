@@ -92,11 +92,16 @@ public class HomeController {
 	
 	@RequestMapping("/client_send.cst")
 	public String client_send(HttpServletRequest request) throws IOException {			
-		String modulecode = request.getParameter("modulecode");
-		String value = request.getParameter("value");
-		String testMsg = "{\"datacode1\":"+modulecode+",\"dataval1\":"+value+","
-				+ "\"datacode2\":"+"30"+",\"dataval2\":"+"1"+","
-						+ "\"datacode3\":"+"30"+",\"dataval3\":"+"1"+"}";
+		String modulecode1 = request.getParameter("modulecode1");
+		String modulecode2 = request.getParameter("modulecode2");
+		String modulecode3 = request.getParameter("modulecode3");
+		String value1 = request.getParameter("value1");
+		String value2 = request.getParameter("value2");
+		String value3 = request.getParameter("value3");
+		
+		String testMsg = "{\"datacode1\":"+modulecode1+",\"dataval1\":"+value1+","
+				+ "\"datacode2\":"+modulecode2+",\"dataval2\":"+value2+","
+						+ "\"datacode3\":"+modulecode3+",\"dataval3\":"+value3+"}";
 		int port = 2588;
 		
 		
