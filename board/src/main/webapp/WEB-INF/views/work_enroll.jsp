@@ -131,6 +131,7 @@ boolean login = userId == null ? false : true;
 									<th>제품코드</th>
 									<th>제품명</th>
 									<th>주문수량</th>
+									<th>1대당 작업시간 (초)</th>
 								</tr>
 							</thead>
 
