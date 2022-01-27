@@ -134,6 +134,7 @@ boolean login = userId == null ? false : true;
 									<th>제품코드</th>
 									<th>제품명</th>
 									<th>1대당 작업시간 (초)</th>
+									<th>후공정 여부</th>
 								</tr>
 							</thead>
 							<c:forEach items="${product}" var="product">
@@ -141,6 +142,10 @@ boolean login = userId == null ? false : true;
                 					<td><c:out value="${product.code}"/></td>
                						<td><c:out value="${product.name}"/></td>
                 					<td><c:out value="${product.time}"/></td>
+                					<c:choose>
+                					<c:when test="${product.bprocess eq 1}"><td>O</td></c:when>
+                					<c:when test="${product.bprocess eq 0}"><td>X</td></c:when>
+                					</c:choose>
                 					
                 					<form method = "post" action = "deleteProduct.cst" id = delete_product>
                                 		<input type="hidden" name = "pcode" value = "${product.code}">

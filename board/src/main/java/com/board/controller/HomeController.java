@@ -2,6 +2,9 @@ package com.board.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -87,7 +90,7 @@ public class HomeController {
 		out.println("</script>");
 		out.flush();
 	}
-			
+	
 	@RequestMapping("/client_send.cst")
 	public String client_send(HttpServletRequest request) throws IOException {			
 		String modulecode = request.getParameter("modulecode");
@@ -153,7 +156,6 @@ public class HomeController {
 	}
 	
 	//회원가입 동작
-
 	@RequestMapping(value = "/regiAction.cst", method = RequestMethod.POST)
 	public String register(HttpServletRequest req, HttpServletResponse res) throws IOException {
 	
@@ -206,12 +208,14 @@ public class HomeController {
 			return "/front_page";
 		}
 	}
+	
 	@RequestMapping(value = "/logoutAction.cst",method = RequestMethod.GET)
 	public String logoutProcess(HttpServletResponse res, HttpServletRequest req) throws IOException {
 		HttpSession session = req.getSession();
 		session.invalidate();
 		return "redirect:/fp.cst";
 	}
+	
 	//서버에 현황판 내용 저장
 	@RequestMapping(value = "/enrollAction.cst",method = RequestMethod.POST)
 	public String enroll(HttpSession session, HttpServletResponse res, HttpServletRequest req){
@@ -236,6 +240,7 @@ public class HomeController {
 			userService.enroll(boardvo);
 			return "redirect:/work.cst";
 	}
+	
 	// 현황판 접근 and 게시글 표시
 	@RequestMapping("/cs.cst")
 	public String currboard(HttpServletRequest request,Model model) throws IOException {
@@ -243,17 +248,21 @@ public class HomeController {
 		// 현황판 표시
 		//gb를 통해 연결한 netty 값을 받아오기 위해 setAttribute를 통해 값 넣는다.
 		try {
-			request.setAttribute("gb", gb);			
+			request.setAttribute("gb", gb);		
 		}
 		catch(Exception e) {
 			System.out.println("gb error");
 		};
+		
+		
+		model.addAttribute("Current_temper",gb.getCurrent_temper());
 		
 		// model.addAttribute를 통해 프론트에서 list 변수를 통해 userService.getList()속 값을 list라는 변수를 통해 접근 가능 하도록 한다.
 		model.addAttribute("list",userService.getList());
 		return "/current_state";
 		
 	}
+	
 	//현황판 등록
 	@RequestMapping(value = "/work.cst")
 	public String work_enroll(HttpServletRequest request,Model model) throws IOException {
@@ -309,13 +318,14 @@ public class HomeController {
 		
 		sindex = Integer.parseInt(req.getParameter("sindex"));
 		sordernum = Integer.parseInt(req.getParameter("sordernum"));
-		sftime = Integer.parseInt(req.getParameter("sftime"));
-		
+		sftime = Integer.parseInt(req.getParameter("sftime"));		
 		String sstate = req.getParameter("sstate");
+		
 		if(sstate.contentEquals("완료됨")) {
 			System.out.println("이미 완료된 작업입니다.");
 			return "redirect:/work.cst";
 		}
+		
 		gb.setSindex(sindex);
 
 		//gb.setSordernum(sordernum);
@@ -372,11 +382,17 @@ public class HomeController {
     		System.out.println("정상 호출 중 입니다.");
     		//curr_temper을 completenum으로 사용함.
     		float temp = ((float)gb.getCurrent_temper()/sordernum)*100;
+    		int srating = (int)temp;
         	System.out.println(temp);
-    		int sttime = (sftime*(sordernum-(int)gb.getCurrent_temper())/60);
-    		System.out.println(sttime);
-
-        	int srating = (int)temp;
+        	
+        	Calendar cal = Calendar.getInstance();
+        	cal.setTime(new Date());
+        	SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm");
+        	
+    		int temp_sttime = (sftime*(sordernum-(int)gb.getCurrent_temper())/60);
+    		cal.add(Calendar.MINUTE, temp_sttime);
+    		
+    		String sttime = sf.format(cal.getTime());
         	
         	if(sordernum <= (int)gb.getCurrent_temper()) {
             	//완료되면 완료상태를 한번 데이터베이스에 저장하고 완료되었습니다 문구 표시 후 flag = 0으로 만들어 작업 중지 다음 작업 준비.
@@ -387,7 +403,8 @@ public class HomeController {
         		//데이터베이스 상태를 완료됨으로 변경.
         		userService.completeAction(sindex);
         		
-        		// stopAction때와 똑같이 +기계 중지신호+ 기계데이터 0으로 초기화
+        		// stopAction때와 똑같이 +기계 중지신호+ 기계데이터 0으로 초기화 --> 80을 쏘면 됨
+        		
         		
         	}else {
             	userService.startAction(sindex, gb.getCurrent_temper(),srating,sttime);

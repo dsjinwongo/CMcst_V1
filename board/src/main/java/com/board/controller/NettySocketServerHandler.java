@@ -73,7 +73,7 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 					case 14 : //coin
 						gb.setAlive_coin((String)json.get("dataval"+idx));
 						break;
-					case 20 : //TEMP
+					case 85 : //TEMP
 						gb.setCurrent_temper(Integer.parseInt((String)json.get("dataval"+idx)));
 						break;
 					case 22 : //HUMID
@@ -99,8 +99,8 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 		//System.out.println(gb.getSindex());
 		//System.out.println(gb.getCurrent_temper());
 		if(precurrtemp != gb.getCurrent_temper() && gb.getSindex()!=0) {
-			
 			precurrtemp = gb.getCurrent_temper();
+			
 		}else {
 			System.out.println("대기중 입니다");
 		}

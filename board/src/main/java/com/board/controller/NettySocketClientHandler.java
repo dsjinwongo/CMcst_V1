@@ -21,7 +21,7 @@ public class NettySocketClientHandler extends ChannelInboundHandlerAdapter {
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		ByteBuf messageBuffer = Unpooled.buffer();
 		messageBuffer.writeBytes(msg.getBytes());	
-		ctx.writeAndFlush(messageBuffer);	
+		ctx.writeAndFlush(messageBuffer);
 		System.out.println("send message {" + msg + "}");
 	}
 	

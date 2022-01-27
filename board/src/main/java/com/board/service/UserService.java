@@ -31,7 +31,7 @@ public interface UserService {
 	//현황판 삭제
 	public void delete(int sindex);
 	
-	public void startAction(int sindex,int scompletenum,int srating,int sttime);
+	public void startAction(int sindex,int scompletenum,int srating,String sttime);
 	
 	public void stopAction(int sindex);
 	

@@ -34,7 +34,7 @@ public interface UserMapper {
 	public void delete(@Param("sindex")int sindex);
 	
 	//시작버튼 동작
-	public void startAction(@Param("sindex")int sindex,@Param("scompletenum")int scompletenum,@Param("srating")int srating, @Param("sttime")int sttime);
+	public void startAction(@Param("sindex")int sindex,@Param("scompletenum")int scompletenum,@Param("srating")int srating, @Param("sttime")String sttime);
 	
 	//중지버튼 동작
 	public void stopAction(@Param("sindex")int sindex);

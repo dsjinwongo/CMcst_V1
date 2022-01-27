@@ -21,13 +21,19 @@ public class NettySocketClient {
 	}
 	
 	public void run() {
+		//EventLoopGroup 생성 -> 같은 그룹에 속하면 스레드와 특정 리소스를 공유
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		
 		try {
+			//Netty를 구동하기 위해 스레드를 생성하고 소켓을 오픈하는 bootstrap클래스 생성
 			Bootstrap b = new Bootstrap();
 			b.group(workerGroup);
 			b.channel(NioSocketChannel.class);
 			b.option(ChannelOption.SO_KEEPALIVE, true);
+			/*
+			 * Netty에서 Socket채널은 TCP 연결을 대표하고, 이를 통해 머신 사이에서 데이터 전달과정이 이루어진다.
+			 * ChannelInitializer는 Socket 채녈이 생성될 때, ChannelHandler로서 SocketChannel을 초기화한다.
+			*/ 
 			b.handler(new ChannelInitializer<SocketChannel>() {
 
 				@Override

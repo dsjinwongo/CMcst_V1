@@ -43,7 +43,6 @@ boolean login = userId == null ? false : true;
 	} catch(java.lang.NullPointerException e) {
 		
 	}
-
 %>
 <!DOCTYPE html>
 
@@ -65,6 +64,10 @@ boolean login = userId == null ? false : true;
 	</script>
 	<!--  layout body  -->
 	<body class="is-preload" onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="">
+	<script>
+		var count=${Current_temper};
+		console.log(count);
+	</script>
 		<!-- Wrapper -->
 		<div id="wrapper">
 			<div id="main">
@@ -96,7 +99,7 @@ boolean login = userId == null ? false : true;
 									<th>진행률</th>
 									<th>1대당 작업시간</th>
 									<th>예상 작업시간(분)</th>
-									<th>예상 완료시간(후)</th>																
+									<th>예상 완료시각</th>																
 								</tr>
 							</thead>
 							<c:forEach items="${list}" var="list">
@@ -110,7 +113,7 @@ boolean login = userId == null ? false : true;
                 					<td><c:out value="${list.rating}"/>%</td>
                 					<td><c:out value="${list.ftime}"/>초</td>
                 					<td><c:out value="${list.stime}"/>분</td>
-                					<td><c:out value="${list.ttime}"/>분 후</td>
+                					<td><c:out value="${list.ttime}"/>분</td>
                                     <!-- 추후에 버튼 말고 a 태그에서 controller 작동 할 수 있는 방법을 알면 공간적으로 절약될듯.  -->
             					</tr>
        						</c:forEach>
