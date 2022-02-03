@@ -18,6 +18,9 @@ public class global_bean {
 	private String client_host = null;
 	private int sindex = 0;
 	private int sordernum = 0;
+	private int sftime = 0;
 	private int remain = 0;
 	private int flag = 0;
+	
+	private int value1=0;
 }

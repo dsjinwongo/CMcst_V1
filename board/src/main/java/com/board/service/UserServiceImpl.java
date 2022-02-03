@@ -107,5 +107,11 @@ public class UserServiceImpl implements UserService {
 	public void delete_product(String pcode) {
 		mapper.delete_product(pcode);
 	}
+	
+	//자동시작 제품 불러오기
+	@Override
+	public boardVO getFirstProduct() {
+		return mapper.getFirstProduct();
+	}
 
 }

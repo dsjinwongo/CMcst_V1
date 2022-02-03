@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import com.board.bean.global_bean;
+import com.board.model.boardVO;
 import com.board.service.UserService;
 
 import io.netty.buffer.ByteBuf;
@@ -94,15 +95,24 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception{
 		
-		if(precurrtemp != gb.getCurrent_temper())
-			gb.setSindex(1);
+		if(precurrtemp != gb.getCurrent_temper() && gb.getSindex()== 0) {
+			//중단 혹은 대기중인 맨 위 등록된 제품의 주문개수, 시간 가져오기
+			System.out.println(userService.getFirstProduct());
+			boardVO vo = userService.getFirstProduct();
+			
+			//글로벌 변수 설정
+			gb.setSindex(vo.getTableindex());
+			gb.setSordernum(vo.getOrdernum());
+			gb.setSftime(Integer.parseInt(vo.getFtime()));
+			
+			gb.setFlag(1);
+		}
 			
 		// TODO Auto-generated method stub
 		//System.out.println(gb.getSindex());
 		//System.out.println(gb.getCurrent_temper());
 		if(precurrtemp != gb.getCurrent_temper() && gb.getSindex()!=0) {
 			precurrtemp = gb.getCurrent_temper();
-			gb.setFlag(1);
 		}else {
 			System.out.println("대기중 입니다");
 		}

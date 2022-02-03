@@ -53,5 +53,8 @@ public interface UserService {
 	
 	//제품삭제
 	public void delete_product(String pcode);
+	
+	//자동시작 제품 불러오기
+	public boardVO getFirstProduct();
 
 }
