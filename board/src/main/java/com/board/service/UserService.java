@@ -8,6 +8,7 @@ import com.board.model.boardVO;
 import com.board.model.userVO;
 import com.board.model.productVO;
 
+
 public interface UserService {
 
 	// 로그인

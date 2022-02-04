@@ -67,7 +67,7 @@ public class HomeController {
 			@Override
 			public void run() {
 				try {
-					server = new NettySocketServer(2456,gb);
+					server = new NettySocketServer(2456,gb,userService);
 					server.run();
 										
 				}
@@ -280,8 +280,8 @@ public class HomeController {
 		//Gson을 활용해서 Json으로 파싱
 		Gson gson = new GsonBuilder().create();
 		
-		model.addAttribute("product",userService.getProduct());
 		model.addAttribute("product_json", gson.toJson(userService.getProduct()));
+		model.addAttribute("product",userService.getProduct());
 
 		return "/work_enroll";
 	}
@@ -374,6 +374,7 @@ public class HomeController {
         	userService.stopAction(sindex);
         	//0번 인덱스는 존재하지 않는 인덱스 이므로 데이터베이스에 연결되지 않는다.
         	sindex = 0;
+        	gb.setSindex(0);
         	// + 중지신호 + 기계데이터 0으로 초기화
 		}
         return "redirect:/work.cst";
@@ -422,8 +423,7 @@ public class HomeController {
         		//데이터베이스 상태를 완료됨으로 변경.
         		userService.completeAction(gb.getSindex());
         		
-        		// stopAction때와 똑같이 +기계 중지신호+ 기계데이터 0으로 초기화 --> 80을 쏘면 됨
-        		
+        		gb.setSindex(0);
         		
         	}else {
             	userService.startAction(gb.getSindex(), gb.getCurrent_temper(),srating,sttime);

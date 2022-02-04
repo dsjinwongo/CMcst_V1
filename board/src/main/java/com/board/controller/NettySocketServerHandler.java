@@ -24,14 +24,14 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 @Sharable
 public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 
+	private UserService userService;
 	private String readMessage = null;
 	private global_bean gb;
 	private int precurrtemp=0;
-	@Resource
-	private UserService userService;
 
 	
-	public NettySocketServerHandler(global_bean gb) {
+	public NettySocketServerHandler(global_bean gb, UserService userService) {
+		this.userService = userService;
 		this.gb = gb;	
 	}
 	
@@ -94,6 +94,8 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 	}
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception{
+		
+		System.out.println(userService != null ? userService.getFirstProduct() : "user Service is null");
 		
 		if(precurrtemp != gb.getCurrent_temper() && gb.getSindex()== 0) {
 			//중단 혹은 대기중인 맨 위 등록된 제품의 주문개수, 시간 가져오기

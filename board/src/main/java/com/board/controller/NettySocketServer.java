@@ -1,6 +1,9 @@
 package com.board.controller;
 
+import javax.annotation.Resource;
+
 import com.board.bean.global_bean;
+import com.board.service.UserService;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -13,6 +16,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class NettySocketServer {
+
+	private UserService userService;
 	private int port;
 	private EventLoopGroup bossGroup;
 	private EventLoopGroup workerGroup;
@@ -20,7 +25,8 @@ public class NettySocketServer {
 	private NettySocketServerHandler serverHandler;
 	private global_bean gb;
 	
-	public NettySocketServer(int port, global_bean gb) {
+	public NettySocketServer(int port, global_bean gb,UserService userService) {
+		this.userService=userService;
 		this.port = port;
 		this.gb = gb;
 	}
@@ -34,7 +40,7 @@ public class NettySocketServer {
 			@Override
 			public void initChannel(SocketChannel ch) throws Exception {
 				ChannelPipeline pipeline = ch.pipeline();
-				serverHandler = new NettySocketServerHandler(gb);
+				serverHandler = new NettySocketServerHandler(gb,userService);
 				pipeline.addLast(serverHandler);
 			}
 		})
