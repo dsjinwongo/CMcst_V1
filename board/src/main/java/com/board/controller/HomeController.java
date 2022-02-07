@@ -60,7 +60,6 @@ public class HomeController {
 	private int scompletenum = 0;
 	private int sftime = 0;
 	private int listcheck = 1;
-	//private int averageTime=0;
 
 	@PostConstruct
 	private void start() {
@@ -403,24 +402,25 @@ public class HomeController {
     		int srating = (int)temp;
         	System.out.println(temp);
         	
-        	//걸린시간 총합
-        	//averageTime+=gb.getSftime();
-        	
-        	//예상 작업시간 초기화
-        	
         	//날짜 형식 설정
         	Calendar cal = Calendar.getInstance();
         	cal.setTime(new Date());
         	SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm");
         	
-    		int temp_sttime = (gb.getSftime()*(gb.getSordernum()-(int)gb.getCurrent_temper())/60);
-    		cal.add(Calendar.MINUTE, temp_sttime);
+    		int sstime = (gb.getSftime()*(gb.getSordernum()-(int)gb.getCurrent_temper())/60);
+    		cal.add(Calendar.MINUTE, sstime);
     		
     		String sttime = sf.format(cal.getTime());
+    		
+    		//예상 작업시간 초기화
         	
         	if(gb.getSordernum() <= (int)gb.getCurrent_temper()) {
             	//완료되면 완료상태를 한번 데이터베이스에 저장하고 완료되었습니다 문구 표시 후 flag = 0으로 만들어 작업 중지 다음 작업 준비.
-        		userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, gb.getSftime());
+        		userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, gb.getAverageTime()/gb.getCurrent_temper(), sstime);
+        		
+        		//평균시간 초기화
+        		gb.setAverageTime(0);
+        		
         		gb.setFlag(0);
         		System.out.println("완료되었습니다");
         		
@@ -430,11 +430,12 @@ public class HomeController {
         		//데이터베이스 상태를 완료됨으로 변경.
         		userService.completeAction(gb.getSindex());
         		
+        		
         		//인덱스 초기화(자동시작할 때 중단, 대기중인 제품을 읽어와서 초기화하기 위함)
         		gb.setSindex(0);
         		
         	}else {
-            	userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, gb.getSftime());
+            	userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, gb.getSftime(), sstime);
         	}
         	
         	//1초마다 서버에 msg를 보내 count값을 초기화 해야하는지를 결정

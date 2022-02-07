@@ -74,6 +74,7 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 						break;
 					case 90 : //개당 걸리는 시간
 						gb.setSftime(Integer.parseInt((String)json.get("dataval"+idx)));
+						gb.setAverageTime(gb.getSftime()+gb.getAverageTime());
 						break;
 					case 85 : //현재 완료된 개수
 						gb.setCurrent_temper(Integer.parseInt((String)json.get("dataval"+idx)));
