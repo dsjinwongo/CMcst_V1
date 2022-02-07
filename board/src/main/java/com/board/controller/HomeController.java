@@ -416,11 +416,8 @@ public class HomeController {
         	
         	if(gb.getSordernum() <= (int)gb.getCurrent_temper()) {
             	//완료되면 완료상태를 한번 데이터베이스에 저장하고 완료되었습니다 문구 표시 후 flag = 0으로 만들어 작업 중지 다음 작업 준비.
-        		userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, gb.getAverageTime()/gb.getCurrent_temper(), sstime);
-        		
-        		//평균시간 초기화
-        		gb.setAverageTime(0);
-        		
+        		userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, gb.getSftime(), sstime);
+        		        		
         		gb.setFlag(0);
         		System.out.println("완료되었습니다");
         		
@@ -430,7 +427,13 @@ public class HomeController {
         		//데이터베이스 상태를 완료됨으로 변경.
         		userService.completeAction(gb.getSindex());
         		
+        		//제품 시간 업데이트
+        		String pcode=userService.getPcode(gb.getSindex());
+        		userService.updateProductTime(gb.getAverageTime()/gb.getCurrent_temper(), pcode);
         		
+        		//평균시간 초기화
+        		gb.setAverageTime(0);
+        			
         		//인덱스 초기화(자동시작할 때 중단, 대기중인 제품을 읽어와서 초기화하기 위함)
         		gb.setSindex(0);
         		

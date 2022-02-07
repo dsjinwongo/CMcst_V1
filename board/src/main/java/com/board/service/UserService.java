@@ -41,6 +41,10 @@ public interface UserService {
 	public void stopAction(int sindex);
 	
 	public void completeAction(int sindex);
+	
+	public void updateProductTime(int sftime, String pcode);
+	
+	public String getPcode(int sindex);
 
 	public void resetAction();
 	

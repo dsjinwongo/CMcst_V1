@@ -84,6 +84,16 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public void updateProductTime(int sftime, String pcode) {
+		mapper.updateProductTime(sftime, pcode);
+	}
+	
+	@Override
+	public String getPcode(int sindex) {
+		return mapper.getPcode(sindex);
+	}
+	
+	@Override
 	public void resetAction() {
 		mapper.resetAction();
 	}

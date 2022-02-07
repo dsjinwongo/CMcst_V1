@@ -48,6 +48,12 @@ public interface UserMapper {
 	//완료되었을때, 실행되는 동작
 	public void completeAction(@Param("sindex")int sindex);
 	
+	//제품 1대당 작업시간 업데이트
+	public void updateProductTime(@Param("sftime")int sftime, @Param("pcode")String pcode);
+	
+	//완료된 제품 코드 갖고오기
+	public String getPcode(@Param("sindex")int sindex);
+	
 	//초기화 버튼을 눌렀을때, 실행되는 동작
 	public void resetAction();
 	
