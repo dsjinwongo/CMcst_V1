@@ -90,33 +90,6 @@ public class HomeController {
 		out.flush();
 	}
 	
-//	@RequestMapping("/client_send.cst")
-//	public String client_send(HttpServletRequest request) throws IOException {			
-//		//String modulecode1 = request.getParameter("modulecode1");
-//		String modulecode2 = request.getParameter("modulecode2");
-//		String modulecode3 = request.getParameter("modulecode3");
-//		//String value1 = request.getParameter("value1");
-//		String value2 = request.getParameter("value2");
-//		String value3 = request.getParameter("value3");
-//		
-//		String testMsg = "{\"datacode1\":"+80+",\"dataval1\":"+gb.getValue1()+","
-//				+ "\"datacode2\":"+"\"80\""+",\"dataval2\":"+"\"1\""+","
-//						+ "\"datacode3\":"+"\"80\""+",\"dataval3\":"+"\"1\""+"}";
-//		int port = 2588;
-//		
-//		
-//		if(gb.getClient_host() != null) {
-//			client = new NettySocketClient(gb.getClient_host(),port,testMsg);
-//			
-//			client.run();
-//		}
-//		else {
-//			System.out.println("client address error");
-//		}
-//		
-//		return "redirect:/cs.cst";
-//	}
-	
 	@SuppressWarnings("static-access")
 	@PreDestroy
 	private void destroy() throws InterruptedException {
@@ -344,8 +317,6 @@ public class HomeController {
 		//gb.setSordernum(sordernum);
 		gb.setFlag(1);
 		
-		gb.setValue1(0);
-		
 		//데이터베이스에 주기적으로 데이터를 받아 넣어주는 함수
 		syncAction();
 		
@@ -391,12 +362,15 @@ public class HomeController {
         return "redirect:/work.cst";
     }
     
-    //6초간격으로 데이터베이스에 값을 넘겨준다
-    @Scheduled(fixedRate = 1000)
+    //6초간격으로 데이터베이스에 값을 넘겨준다, 작업시간을 보장하기 위해 fixedrate->fixeddelay로 바꿈
+    @Scheduled(fixedDelay = 1000)
     public void syncAction() {
+    	//msgValue값 초기화 ==port 80번 0으로 초기화
+		int msgValue=0;
     	
     	if(gb.getFlag() == 1) {
     		System.out.println("정상 호출 중 입니다.");
+    		
     		//curr_temper을 completenum으로 사용함.
     		float temp = ((float)gb.getCurrent_temper()/gb.getSordernum())*100;
     		int srating = (int)temp;
@@ -421,9 +395,6 @@ public class HomeController {
         		gb.setFlag(0);
         		System.out.println("완료되었습니다");
         		
-        		//서버 count값 초기화
-        		gb.setValue1(1);
-        		
         		//데이터베이스 상태를 완료됨으로 변경.
         		userService.completeAction(gb.getSindex());
         		
@@ -437,31 +408,36 @@ public class HomeController {
         		//인덱스 초기화(자동시작할 때 중단, 대기중인 제품을 읽어와서 초기화하기 위함)
         		gb.setSindex(0);
         		
+        		//count값 초기화
+        		msgValue=1;
+        		
         	}else {
             	userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, gb.getSftime(), sstime);
-        	}
-        	
-        	//1초마다 서버에 msg를 보내 count값을 초기화 해야하는지를 결정
-        	//client_send함수 코드를 여기로 복사함
-        	String testMsg = "{\"datacode1\":"+80+",\"dataval1\":"+gb.getValue1()+","
-    				+ "\"datacode2\":"+"\"80\""+",\"dataval2\":"+"\"1\""+","
-    						+ "\"datacode3\":"+"\"80\""+",\"dataval3\":"+"\"1\""+"}";
-    		int port = 2588;
-    		
-    		
-    		if(gb.getClient_host() != null) {
-    			client = new NettySocketClient(gb.getClient_host(),port,testMsg);
-    			
-    			client.run();
-    		}
-    		else {
-    			System.out.println("client address error");
-    		}
-    		
+        	}    	
     	} else {
     		System.out.println("작업 중지중 입니다.");
     	}
+    	//80번 포트 0으로 초기화
+    	client_send(msgValue);
     }
+    
+    public void client_send (int value) {			
+		//1초마다 서버에 msg를 보내 count값을 초기화 해야하는지를 결정
+    	String testMsg = "{\"datacode1\":"+80+",\"dataval1\":"+value+","
+				+ "\"datacode2\":"+"\"80\""+",\"dataval2\":"+"\"1\""+","
+						+ "\"datacode3\":"+"\"80\""+",\"dataval3\":"+"\"1\""+"}";
+		int port = 2588;
+		
+		
+		if(gb.getClient_host() != null) {
+			client = new NettySocketClient(gb.getClient_host(),port,testMsg);
+			
+			client.run();
+		}
+		else {
+			System.out.println("client address error");
+		}
+	}
 
 	//csv 파일로 현황판 데이터를 내보내는 동작 (작동안함) my.ini 파일을 건들여주어야 한다고 함.
     @RequestMapping("/outAction.cst")
