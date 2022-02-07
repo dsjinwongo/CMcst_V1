@@ -60,6 +60,7 @@ public class HomeController {
 	private int scompletenum = 0;
 	private int sftime = 0;
 	private int listcheck = 1;
+	//private int averageTime=0;
 
 	@PostConstruct
 	private void start() {
@@ -400,6 +401,9 @@ public class HomeController {
     		float temp = ((float)gb.getCurrent_temper()/gb.getSordernum())*100;
     		int srating = (int)temp;
         	System.out.println(temp);
+        	
+        	//걸린시간 총합
+        	//averageTime+=gb.getSftime();
         	
         	//날짜 형식 설정
         	Calendar cal = Calendar.getInstance();

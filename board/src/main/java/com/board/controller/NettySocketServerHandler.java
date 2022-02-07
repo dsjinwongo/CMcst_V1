@@ -27,6 +27,7 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 	private UserService userService;
 	private String readMessage = null;
 	private global_bean gb;
+	private boardVO vo;
 	private int precurrtemp=0;
 
 	
@@ -71,10 +72,10 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 					case 12 : //heater
 						gb.setHeater_state((String)json.get("dataval"+idx));
 						break;
-					case 14 : //coin
-						gb.setAlive_coin((String)json.get("dataval"+idx));
+					case 90 : //개당 걸리는 시간
+						gb.setSftime(Integer.parseInt((String)json.get("datava3"+idx)));
 						break;
-					case 85 : //TEMP
+					case 85 : //현재 완료된 개수
 						gb.setCurrent_temper(Integer.parseInt((String)json.get("dataval"+idx)));
 						break;
 					case 22 : //HUMID
@@ -92,15 +93,15 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 		}
 		
 	}
+	
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception{
-		
-		System.out.println(userService != null ? userService.getFirstProduct() : "user Service is null");
-		
 		if(precurrtemp != gb.getCurrent_temper() && gb.getSindex()== 0) {
 			//중단 혹은 대기중인 맨 위 등록된 제품의 주문개수, 시간 가져오기
-			System.out.println(userService.getFirstProduct());
-			boardVO vo = userService.getFirstProduct();
+			if(userService.getStoppedProduct()!=null)
+				vo = userService.getStoppedProduct();
+			else
+				vo = userService.getWaitingProduct();
 			
 			//글로벌 변수 설정
 			gb.setSindex(vo.getTableindex());
@@ -121,6 +122,7 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 
 		System.out.println("read complete");
 	}
+	
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
 		// TODO Auto-generated method stub

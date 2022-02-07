@@ -39,9 +39,14 @@
 		select * from product
 	</select>
 	
-	<!--  자동시작 제품 불러오기 -->
-	<select id = "getFirstProduct" resultType = "com.board.model.boardVO">
-		SELECT * FROM cur_table where state != "완료됨" limit 1;
+	<!--  중단된 맨위 제품 불러오기 -->
+	<select id = "getStoppedProduct" resultType = "com.board.model.boardVO">
+		SELECT * FROM cur_table where state = "중단됨" limit 1;
+	</select>
+	
+	<!--  대기중인 맨위 제품 불러오기 -->
+	<select id = "getWaitingProduct" resultType = "com.board.model.boardVO">
+		SELECT * FROM cur_table where state = "대기" limit 1;
 	</select>
 	
 	<!-- 제품(등록) -->

@@ -63,7 +63,10 @@ public interface UserMapper {
 	//제품삭제
 	public void delete_product(@Param("pcode")String pcode);
 	
-	//자동시작 제품 불러오기
-	public boardVO getFirstProduct();
+	//중단된 맨위 제품 불러오기
+	public boardVO getStoppedProduct();
+		
+	//대기중인 맨위 제품 불러오기
+	public boardVO getWaitingProduct();
 
 }

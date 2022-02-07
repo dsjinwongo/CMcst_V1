@@ -108,10 +108,16 @@ public class UserServiceImpl implements UserService {
 		mapper.delete_product(pcode);
 	}
 	
-	//자동시작 제품 불러오기
+	//중단된 맨위 제품 불러오기
 	@Override
-	public boardVO getFirstProduct() {
-		return mapper.getFirstProduct();
+	public boardVO getStoppedProduct() {
+		return mapper.getStoppedProduct();
+	}
+	
+	//대기중인 맨위 제품 불러오기
+	@Override
+	public boardVO getWaitingProduct() {
+		return mapper.getWaitingProduct();
 	}
 
 }
