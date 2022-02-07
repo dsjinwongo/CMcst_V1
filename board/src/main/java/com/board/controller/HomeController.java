@@ -375,8 +375,9 @@ public class HomeController {
         	userService.stopAction(sindex);
         	//0번 인덱스는 존재하지 않는 인덱스 이므로 데이터베이스에 연결되지 않는다.
         	sindex = 0;
-        	gb.setSindex(0);
-        	// + 중지신호 + 기계데이터 0으로 초기화
+        	
+        	//인덱스 초기화(자동시작할 때 중단, 대기중인 제품을 읽어와서 초기화하기 위함)
+        	gb.setSindex(sindex);
 		}
         return "redirect:/work.cst";
     }
@@ -427,6 +428,7 @@ public class HomeController {
         		//데이터베이스 상태를 완료됨으로 변경.
         		userService.completeAction(gb.getSindex());
         		
+        		//인덱스 초기화(자동시작할 때 중단, 대기중인 제품을 읽어와서 초기화하기 위함)
         		gb.setSindex(0);
         		
         	}else {
