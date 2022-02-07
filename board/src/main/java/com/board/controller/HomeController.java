@@ -406,6 +406,8 @@ public class HomeController {
         	//걸린시간 총합
         	//averageTime+=gb.getSftime();
         	
+        	//예상 작업시간 초기화
+        	
         	//날짜 형식 설정
         	Calendar cal = Calendar.getInstance();
         	cal.setTime(new Date());
@@ -418,7 +420,7 @@ public class HomeController {
         	
         	if(gb.getSordernum() <= (int)gb.getCurrent_temper()) {
             	//완료되면 완료상태를 한번 데이터베이스에 저장하고 완료되었습니다 문구 표시 후 flag = 0으로 만들어 작업 중지 다음 작업 준비.
-        		userService.startAction(gb.getSindex(), gb.getCurrent_temper(),srating,sttime);
+        		userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, gb.getSftime());
         		gb.setFlag(0);
         		System.out.println("완료되었습니다");
         		
@@ -432,7 +434,7 @@ public class HomeController {
         		gb.setSindex(0);
         		
         	}else {
-            	userService.startAction(gb.getSindex(), gb.getCurrent_temper(),srating,sttime);
+            	userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, gb.getSftime());
         	}
         	
         	//1초마다 서버에 msg를 보내 count값을 초기화 해야하는지를 결정

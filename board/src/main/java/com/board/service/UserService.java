@@ -36,7 +36,7 @@ public interface UserService {
 	public void updateindex2();
 	public void updateindex3();
 	
-	public void startAction(int sindex,int scompletenum,int srating,String sttime);
+	public void startAction(int sindex,int scompletenum,int srating,String sttime, int sftime);
 	
 	public void stopAction(int sindex);
 	

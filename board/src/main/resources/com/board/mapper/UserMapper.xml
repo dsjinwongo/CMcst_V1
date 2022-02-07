@@ -139,7 +139,7 @@
 	
 	<!-- 현황판 시작 업데이트 -->
 	<update id = "startAction">
-		update cur_table set state = "진행중", completenum = #{scompletenum}, rating = #{srating}, ttime = #{sttime} where tableindex = #{sindex}
+		update cur_table set state = "진행중", completenum = #{scompletenum}, rating = #{srating}, ttime = #{sttime}, ftime = #{sftime} where tableindex = #{sindex}
 	</update>
 	
 	<!-- 현황판 중단 업데이트 -->
