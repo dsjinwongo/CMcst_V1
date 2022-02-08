@@ -55,7 +55,6 @@ boolean login = userId == null ? false : true;
 
 		
 	}
-
 %>
 <!DOCTYPE html>
 <html>
@@ -68,7 +67,7 @@ boolean login = userId == null ? false : true;
 	</head>
 	<script type="text/javascript">
 	 window.history.forward(1);
-	 function noBack(){window.history.forward(1);}
+	 function noBack(){ window.history.forward(1); }
 	</script>
 	<style>
 	select option[value=""][disabled] {
@@ -88,7 +87,7 @@ boolean login = userId == null ? false : true;
 				<!-- header -->
 				<%@include file = "layout/header.jsp" %>
 				
-				<section id="banner">
+				<section id="banner" style="overflow:hidden">
 					<!--  body -->
 					<div class="content">
 						<header><h1>신규 등록<br/></h1></header>
@@ -127,37 +126,37 @@ boolean login = userId == null ? false : true;
 						</font >
 						<!--  info 와 로그인 정보를 여기서 바로 하게 하면 좋을 것 같다. -->
 					</div>
-					<div style = "width:100%">
-						<table border="1px" id="curr_Table">
-							<thead>
-								<tr>
-									<th>제품코드</th>
-									<th>제품명</th>
-									<th>1대당 작업시간 (초)</th>
-									<th>후공정 여부</th>
-								</tr>
-							</thead>
-							<c:forEach items="${product}" var="product">
-            					<tr>
-                					<td><c:out value="${product.code}"/></td>
-               						<td><c:out value="${product.name}"/></td>
-                					<td><c:out value="${product.time}"/></td>
-                					<c:choose>
-                					<c:when test="${product.bprocess eq 1}"><td>O</td></c:when>
-                					<c:when test="${product.bprocess eq 0}"><td>X</td></c:when>
-                					</c:choose>
-                					
-                					<form method = "post" action = "deleteProduct.cst" id = delete_product>
-                                		<input type="hidden" name = "pcode" value = "${product.code}">
-                                   	    <td><input type="submit" value="삭제"/></td>
-                                    </form>
-                                    
-                                    <!-- 추후에 버튼 말고 a 태그에서 controller 작동 할 수 있는 방법을 알면 공간적으로 절약될듯.  -->
-            					</tr>
-       						</c:forEach>
-							<tbody id="currTbody"></tbody>
-							<tfoot> </tfoot>
-						</table>	
+					<div style = "width:100%; height:550px; overflow:auto">
+					<table border="1px" id="curr_Table">
+						<thead>
+							<tr>
+								<th>제품코드</th>
+								<th>제품명</th>
+								<th>1대당 작업시간 (초)</th>
+								<th>후공정 여부</th>
+							</tr>
+						</thead>
+							<tbody id="currTbody">
+								<c:forEach items="${product}" var="product">
+	            					<tr>
+	                					<td><c:out value="${product.code}"/></td>
+	               						<td><c:out value="${product.name}"/></td>
+	                					<td><c:out value="${product.time}"/></td>
+	                					<c:choose>
+	                					<c:when test="${product.bprocess eq 1}"><td>O</td></c:when>
+	                					<c:when test="${product.bprocess eq 0}"><td>X</td></c:when>
+	                					</c:choose>
+	               					
+	                					<form method = "post" action = "deleteProduct.cst" id = delete_product>
+	                                		<input type="hidden" name = "pcode" value = "${product.code}">
+	                                   	    <td><input type="submit" value="삭제"/></td>
+	                                    </form>
+	                                    
+	                                    <!-- 추후에 버튼 말고 a 태그에서 controller 작동 할 수 있는 방법을 알면 공간적으로 절약될듯.  -->
+	            					</tr>
+	       						</c:forEach>
+							</tbody>
+					</table>
 					</div>
 				 </section>
 			</div>
@@ -171,6 +170,5 @@ boolean login = userId == null ? false : true;
 			<script src="resources/assets/js/breakpoints.min.js"></script>
 			<script src="resources/assets/js/util.js"></script>
 			<script src="resources/assets/js/main.js"></script>
-
 	</body>
 </html>
