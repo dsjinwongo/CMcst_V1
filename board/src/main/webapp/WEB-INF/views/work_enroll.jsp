@@ -122,8 +122,8 @@ boolean login = userId == null ? false : true;
 						<table border="1px" >
 							<colgroup>
 								<!-- column 의 설정을 할수 있다. -->
-								<col style="width:120px;">
-								<col style="width:120px;">
+								<col style="width:200px;">
+								<col style="width:320px;">
 								<col style="width:120px;">
 							</colgroup>
 							<thead>
@@ -154,7 +154,7 @@ boolean login = userId == null ? false : true;
 										    </c:forEach>
 										</select>
 										</td>
-										<td><input type="text" placeholder="제품명" value="" name = "pname" class="text" required="required"></td>
+										<td><input type="text" placeholder="제품명" value="" name = "pname" required="required"></td>
 										<td><input type="number" placeholder="주문수량" name = "ordernum" required="required"></td>
 										<td><input type="number" placeholder="개당 작업시간" value="" name = "ftime" required="required"></td>									                                 	
 	                                   	<td><input type="submit" value="추가" class="primary" /></td>
