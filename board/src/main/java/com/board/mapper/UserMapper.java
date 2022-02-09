@@ -40,7 +40,7 @@ public interface UserMapper {
 	
 	
 	//시작버튼 동작
-	public void startAction(@Param("sindex")int sindex,@Param("scompletenum")int scompletenum,@Param("srating")int srating, @Param("sttime")String sttime, @Param("sftime")int sftime, @Param("sstime")int sstime);
+	public void startAction(@Param("sindex")int sindex,@Param("scompletenum")int scompletenum,@Param("srating")int srating, @Param("sttime")String sttime, @Param("sftime")float sftime, @Param("sstime")int sstime);
 	
 	//중지버튼 동작
 	public void stopAction(@Param("sindex")int sindex);
@@ -49,7 +49,7 @@ public interface UserMapper {
 	public void completeAction(@Param("sindex")int sindex);
 	
 	//제품 1대당 작업시간 업데이트
-	public void updateProductTime(@Param("sftime")int sftime, @Param("pcode")String pcode);
+	public void updateProductTime(@Param("sftime")float sftime, @Param("pcode")String pcode);
 	
 	//완료된 제품 코드 갖고오기
 	public String getPcode(@Param("sindex")int sindex);

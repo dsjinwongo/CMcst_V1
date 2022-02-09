@@ -58,7 +58,7 @@ public class HomeController {
 	private int sindex = 0;
 	private int sordernum = 0;
 	private int scompletenum = 0;
-	private int sftime = 0;
+	private float sftime = 0;
 	private int listcheck = 1;
 
 	@PostConstruct
@@ -197,9 +197,9 @@ public class HomeController {
 	@RequestMapping(value = "/enrollAction.cst",method = RequestMethod.POST)
 	public String enroll(HttpSession session, HttpServletResponse res, HttpServletRequest req){
 		
-			int ftime = Integer.parseInt(req.getParameter("ftime"));
+			float ftime = Float.parseFloat(req.getParameter("ftime"));
 			int ordernum = Integer.parseInt(req.getParameter("ordernum"));
-			int stime = (ftime*ordernum)/60; //분 단위 계산
+			int stime = (int)(ftime*ordernum)/60; //분 단위 계산
 			
 			res.setCharacterEncoding("UTF-8");	
 			boardVO boardvo = new boardVO();
@@ -270,7 +270,7 @@ public class HomeController {
         userService.updateindex1();
         userService.updateindex2();
         userService.updateindex3();
-       
+        
         return "redirect:/work.cst";
     }
     
@@ -291,7 +291,7 @@ public class HomeController {
 			e.printStackTrace();
     	}
     	model.addAttribute("product", userService.getProduct());
-       
+    	
         return "/regi_product";
     }
     
@@ -302,7 +302,7 @@ public class HomeController {
 		
 		sindex = Integer.parseInt(req.getParameter("sindex"));
 		sordernum = Integer.parseInt(req.getParameter("sordernum"));
-		sftime = Integer.parseInt(req.getParameter("sftime"));		
+		sftime = Float.parseFloat(req.getParameter("sftime"));		
 		String sstate = req.getParameter("sstate");
 		
 		if(sstate.contentEquals("완료됨")) {
@@ -313,7 +313,7 @@ public class HomeController {
 		gb.setSindex(sindex);
 		gb.setSordernum(sordernum);
 		gb.setSftime(sftime);
-
+		
 		//gb.setSordernum(sordernum);
 		gb.setFlag(1);
 		
@@ -358,12 +358,12 @@ public class HomeController {
 		res.setCharacterEncoding("UTF-8");
 		
         userService.resetAction();
-        	
+        
         return "redirect:/work.cst";
     }
     
-    //6초간격으로 데이터베이스에 값을 넘겨준다, 작업시간을 보장하기 위해 fixedrate->fixeddelay로 바꿈
-    @Scheduled(fixedDelay = 1000)
+    //1초간격으로 데이터베이스에 값을 넘겨준다
+    @Scheduled(fixedRate = 1000)
     public void syncAction() {
     	//msgValue값 초기화 ==port 80번 0으로 초기화
 		int msgValue=0;
@@ -381,17 +381,15 @@ public class HomeController {
         	cal.setTime(new Date());
         	SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm");
         	
-    		int sstime = (gb.getSftime()*(gb.getSordernum()-(int)gb.getCurrent_temper())/60);
+    		int sstime = (int)(gb.getSftime()*(gb.getSordernum()-(int)gb.getCurrent_temper())/60);
     		cal.add(Calendar.MINUTE, sstime);
     		
     		String sttime = sf.format(cal.getTime());
-    		
-    		//예상 작업시간 초기화
         	
         	if(gb.getSordernum() <= (int)gb.getCurrent_temper()) {
             	//완료되면 완료상태를 한번 데이터베이스에 저장하고 완료되었습니다 문구 표시 후 flag = 0으로 만들어 작업 중지 다음 작업 준비.
         		userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, gb.getSftime(), sstime);
-        		        		
+        		
         		gb.setFlag(0);
         		System.out.println("완료되었습니다");
         		
@@ -400,7 +398,7 @@ public class HomeController {
         		
         		//제품 시간 업데이트
         		String pcode=userService.getPcode(gb.getSindex());
-        		userService.updateProductTime(gb.getAverageTime()/gb.getCurrent_temper(), pcode);
+        		userService.updateProductTime(Math.round(gb.getAverageTime()/gb.getCurrent_temper()*100)/100, pcode);
         		
         		//평균시간 초기화
         		gb.setAverageTime(0);
@@ -424,8 +422,8 @@ public class HomeController {
     public void client_send (int value) {			
 		//1초마다 서버에 msg를 보내 count값을 초기화 해야하는지를 결정
     	String testMsg = "{\"datacode1\":"+80+",\"dataval1\":"+value+","
-				+ "\"datacode2\":"+"\"80\""+",\"dataval2\":"+"\"1\""+","
-						+ "\"datacode3\":"+"\"80\""+",\"dataval3\":"+"\"1\""+"}";
+				+ "\"datacode2\":"+"\"80\""+",\"dataval2\":"+"\"0\""+","
+						+ "\"datacode3\":"+"\"80\""+",\"dataval3\":"+"\"0\""+"}";
 		int port = 2588;
 		
 		

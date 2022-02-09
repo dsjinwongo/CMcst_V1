@@ -10,7 +10,7 @@ public class global_bean {
 	
 	private String doorlock_state = "0";		
 	private String heater_state = "0";		
-	private String alive_coin = "0";		
+	private String alive_coin = "0";
 	private String msg = null;
 	private String reserve = null;
 	private int current_temper = 0;
@@ -18,9 +18,9 @@ public class global_bean {
 	private String client_host = null;
 	private int sindex = 0;
 	private int sordernum = 0;
-	private int sftime = 0;
+	private float sftime = 0;
 	private int remain = 0;
 	private int flag = 0;
 	//평균 소요시간 업데이트 위함
-	private int averageTime=0;
+	private float averageTime=0;
 }

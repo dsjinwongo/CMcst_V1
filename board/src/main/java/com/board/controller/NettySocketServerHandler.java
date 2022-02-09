@@ -73,7 +73,7 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 						gb.setHeater_state((String)json.get("dataval"+idx));
 						break;
 					case 90 : //개당 걸리는 시간
-						gb.setSftime(Integer.parseInt((String)json.get("dataval"+idx)));
+						gb.setSftime(Float.parseFloat((String)json.get("dataval"+idx))/10);
 						gb.setAverageTime(gb.getSftime()+gb.getAverageTime());
 						break;
 					case 85 : //현재 완료된 개수
@@ -107,7 +107,7 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 			//글로벌 변수 설정
 			gb.setSindex(vo.getTableindex());
 			gb.setSordernum(vo.getOrdernum());
-			gb.setSftime(Integer.parseInt(vo.getFtime()));
+			gb.setSftime(Float.parseFloat(vo.getFtime()));
 			
 			gb.setFlag(1);
 		}

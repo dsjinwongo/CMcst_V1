@@ -44,6 +44,8 @@ public class NettySocketClient {
 			});
 			
 			try {
+				System.out.println(host+"|"+port);
+				
 				ChannelFuture f = b.connect(host, port).sync();
 				f.channel().closeFuture().sync();
 			} catch (Exception e) {

@@ -41,7 +41,7 @@
 	
 	<!--  중단된 맨위 제품 불러오기 -->
 	<select id = "getStoppedProduct" resultType = "com.board.model.boardVO">
-		SELECT * FROM cur_table where state = "중단됨" limit 1;
+		SELECT * FROM cur_table where state = "진행중" or state = "중단됨" limit 1;
 	</select>
 	
 	<!--  대기중인 맨위 제품 불러오기 -->

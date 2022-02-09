@@ -128,7 +128,7 @@ boolean login = userId == null ? false : true;
 					</div>
 					<div style = "width:100%; height:550px; overflow:auto">
 					<table border="1px" id="curr_Table">
-						<thead>
+						<thead style="position: sticky; top: 0px; background-color:white;">
 							<tr>
 								<th>제품코드</th>
 								<th>제품명</th>
