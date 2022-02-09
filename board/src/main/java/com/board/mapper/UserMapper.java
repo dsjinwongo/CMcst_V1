@@ -71,7 +71,7 @@ public interface UserMapper {
 	
 	//중단된 맨위 제품 불러오기
 	public boardVO getStoppedProduct();
-		
+	
 	//대기중인 맨위 제품 불러오기
 	public boardVO getWaitingProduct();
 
