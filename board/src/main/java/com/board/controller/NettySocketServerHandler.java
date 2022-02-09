@@ -28,7 +28,6 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 	private String readMessage = null;
 	private global_bean gb;
 	private boardVO vo;
-	private int precurrtemp=0;
 
 	
 	public NettySocketServerHandler(global_bean gb, UserService userService) {
@@ -97,7 +96,14 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 	
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception{
-		if(precurrtemp != gb.getCurrent_temper() && gb.getSindex()== 0) {
+		if(gb.getPrecurrtemp() != gb.getCurrent_temper() && gb.getSindex()!=0) {
+			gb.setPrecurrtemp(gb.getCurrent_temper());
+		}else {
+			System.out.println("대기중 입니다");
+		}
+		
+		System.out.println("precurrtemp:"+gb.getPrecurrtemp()+"Current_temper:"+gb.getCurrent_temper());
+		if(gb.getPrecurrtemp() < gb.getCurrent_temper() && gb.getSindex()== 0) {
 			//중단 혹은 대기중인 맨 위 등록된 제품의 주문개수, 시간 가져오기
 			if(userService.getStoppedProduct()!=null)
 				vo = userService.getStoppedProduct();
@@ -115,11 +121,6 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 		// TODO Auto-generated method stub
 		//System.out.println(gb.getSindex());
 		//System.out.println(gb.getCurrent_temper());
-		if(precurrtemp != gb.getCurrent_temper() && gb.getSindex()!=0) {
-			precurrtemp = gb.getCurrent_temper();
-		}else {
-			System.out.println("대기중 입니다");
-		}
 
 		System.out.println("read complete");
 	}

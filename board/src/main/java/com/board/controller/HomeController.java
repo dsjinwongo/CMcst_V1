@@ -406,6 +406,9 @@ public class HomeController {
         		//인덱스 초기화(자동시작할 때 중단, 대기중인 제품을 읽어와서 초기화하기 위함)
         		gb.setSindex(0);
         		
+        		//다음 제품 자동시작에 영향을 끼치는 것을 방지하기 위해서 초기화
+        		//gb.setPrecurrtemp(0);
+        		
         		//count값 초기화
         		msgValue=1;
         		

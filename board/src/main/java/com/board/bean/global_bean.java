@@ -23,4 +23,6 @@ public class global_bean {
 	private int flag = 0;
 	//평균 소요시간 업데이트 위함
 	private float averageTime=0;
+	
+	private int precurrtemp=0;
 }
