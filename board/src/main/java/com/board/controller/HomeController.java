@@ -58,7 +58,7 @@ public class HomeController {
 	private int sindex = 0;
 	private int sordernum = 0;
 	private int scompletenum = 0;
-	private float sftime = 0;
+	private double sftime = 0;
 	private int listcheck = 1;
 
 	@PostConstruct
@@ -197,7 +197,7 @@ public class HomeController {
 	@RequestMapping(value = "/enrollAction.cst",method = RequestMethod.POST)
 	public String enroll(HttpSession session, HttpServletResponse res, HttpServletRequest req){
 		
-			float ftime = Float.parseFloat(req.getParameter("ftime"));
+			double ftime = Double.parseDouble(req.getParameter("ftime"));
 			int ordernum = Integer.parseInt(req.getParameter("ordernum"));
 			int stime = (int)(ftime*ordernum)/60; //분 단위 계산
 			
@@ -302,7 +302,7 @@ public class HomeController {
 		
 		sindex = Integer.parseInt(req.getParameter("sindex"));
 		sordernum = Integer.parseInt(req.getParameter("sordernum"));
-		sftime = Float.parseFloat(req.getParameter("sftime"));		
+		sftime = Double.parseDouble(req.getParameter("sftime"));		
 		String sstate = req.getParameter("sstate");
 		
 		if(sstate.contentEquals("완료됨")) {
@@ -372,7 +372,7 @@ public class HomeController {
     		System.out.println("정상 호출 중 입니다.");
     		
     		//curr_temper을 completenum으로 사용함.
-    		float temp = ((float)gb.getCurrent_temper()/gb.getSordernum())*100;
+    		double temp = ((double)gb.getCurrent_temper()/gb.getSordernum())*100;
     		int srating = (int)temp;
         	System.out.println(temp);
         	
@@ -398,7 +398,7 @@ public class HomeController {
         		
         		//제품 시간 업데이트
         		String pcode=userService.getPcode(gb.getSindex());
-        		userService.updateProductTime(Math.round(gb.getAverageTime()/gb.getCurrent_temper()*100)/100, pcode);
+        		userService.updateProductTime(Math.round(gb.getAverageTime()/gb.getCurrent_temper()*100)/100.0, pcode);
         		
         		//평균시간 초기화
         		gb.setAverageTime(0);

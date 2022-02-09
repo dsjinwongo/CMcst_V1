@@ -36,13 +36,13 @@ public interface UserService {
 	public void updateindex2();
 	public void updateindex3();
 	
-	public void startAction(int sindex,int scompletenum, int srating, String sttime, float sftime, int sstime);
+	public void startAction(int sindex,int scompletenum, int srating, String sttime, double sftime, int sstime);
 	
 	public void stopAction(int sindex);
 	
 	public void completeAction(int sindex);
 	
-	public void updateProductTime(float sftime, String pcode);
+	public void updateProductTime(double d, String pcode);
 	
 	public String getPcode(int sindex);
 

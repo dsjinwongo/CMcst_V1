@@ -18,11 +18,11 @@ public class global_bean {
 	private String client_host = null;
 	private int sindex = 0;
 	private int sordernum = 0;
-	private float sftime = 0;
+	private double sftime = 0;
 	private int remain = 0;
 	private int flag = 0;
 	//평균 소요시간 업데이트 위함
-	private float averageTime=0;
+	private double averageTime=0;
 	
 	private int precurrtemp=0;
 }

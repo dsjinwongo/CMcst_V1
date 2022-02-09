@@ -73,7 +73,6 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 						break;
 					case 90 : //개당 걸리는 시간
 						gb.setSftime(Float.parseFloat((String)json.get("dataval"+idx))/10);
-						gb.setAverageTime(gb.getSftime()+gb.getAverageTime());
 						break;
 					case 85 : //현재 완료된 개수
 						gb.setCurrent_temper(Integer.parseInt((String)json.get("dataval"+idx)));
@@ -98,12 +97,16 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception{
 		if(gb.getPrecurrtemp() != gb.getCurrent_temper() && gb.getSindex()!=0) {
 			gb.setPrecurrtemp(gb.getCurrent_temper());
+			gb.setAverageTime(gb.getSftime()+gb.getAverageTime());
 		}else {
 			System.out.println("대기중 입니다");
 		}
 		
+		if(gb.getPrecurrtemp()>gb.getCurrent_temper())
+			gb.setPrecurrtemp(0);
+		
 		System.out.println("precurrtemp:"+gb.getPrecurrtemp()+"Current_temper:"+gb.getCurrent_temper());
-		if(gb.getPrecurrtemp() < gb.getCurrent_temper() && gb.getSindex()== 0) {
+		if(gb.getPrecurrtemp() != gb.getCurrent_temper() && gb.getSindex()== 0) {
 			//중단 혹은 대기중인 맨 위 등록된 제품의 주문개수, 시간 가져오기
 			if(userService.getStoppedProduct()!=null)
 				vo = userService.getStoppedProduct();
