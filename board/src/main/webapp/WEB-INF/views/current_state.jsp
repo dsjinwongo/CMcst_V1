@@ -55,7 +55,7 @@ boolean login = userId == null ? false : true;
 		<link rel="stylesheet" href="resources/assets/css/main.css" />
 		<!--  비동기 처리를 위한 AJAX 사용 -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<META HTTP-EQUIV="refresh" CONTENT="10">
+		<META HTTP-EQUIV="refresh" CONTENT="5">
 	
 	</head>
 	<script type="text/javascript">

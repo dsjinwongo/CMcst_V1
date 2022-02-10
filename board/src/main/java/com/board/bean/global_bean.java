@@ -24,5 +24,9 @@ public class global_bean {
 	//평균 소요시간 업데이트 위함
 	private double averageTime=0;
 	
+	private int msgValue=0;
+	
+	private int stoppedProductCount=0;
+	
 	private int precurrtemp=0;
 }
