@@ -120,18 +120,12 @@ boolean login = userId == null ? false : true;
 					<div style = "width:100%";>
 						<tr>
 						<table border="1px" >
-							<colgroup>
-								<!-- column 의 설정을 할수 있다. -->
-								<col style="width:200px;">
-								<col style="width:320px;">
-								<col style="width:120px;">
-							</colgroup>
 							<thead>
 								<tr>
-									<th>제품코드</th>
-									<th>제품명</th>
-									<th>주문수량</th>
-									<th>1대당 작업시간 (초)</th>
+									<th style="width:20%;">제품코드</th>
+									<th style="width:50%;">제품명</th>
+									<th style="width:15%;">주문수량</th>
+									<th style="width:15%;">1대당 작업시간 (초)</th>
 								</tr>
 							</thead>
 
@@ -155,8 +149,8 @@ boolean login = userId == null ? false : true;
 										</select>
 										</td>
 										<td><input type="text" placeholder="제품명" value="" name = "pname" required="required"></td>
-										<td><input type="number" placeholder="주문수량" name = "ordernum" required="required"></td>
-										<td><input type="number" placeholder="개당 작업시간" value="" name = "ftime" required="required"></td>									                                 	
+										<td><input type="text" placeholder="주문수량" name = "ordernum" required="required"></td>
+										<td><input type="text" placeholder="개당 작업시간" value="" name = "ftime" required="required"></td>									                                 	
 	                                   	<td><input type="submit" value="추가" class="primary" /></td>
                                 	</td>
 									
