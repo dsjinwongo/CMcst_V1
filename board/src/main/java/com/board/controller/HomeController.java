@@ -310,6 +310,10 @@ public class HomeController {
 			return "redirect:/work.cst";
 		}
 		
+		if(sstate.contentEquals("대기")) {
+			gb.setMsgValue(1);
+		}
+		
 		gb.setSindex(sindex);
 		gb.setSordernum(sordernum);
 		gb.setSftime(sftime);
@@ -365,9 +369,6 @@ public class HomeController {
     //1초간격으로 데이터베이스에 값을 넘겨준다
     @Scheduled(fixedRate = 1000)
     public void syncAction() {
-    	//msgValue값 초기화 ==port 80번 0으로 초기화
-		int msgValue=0;
-    	
     	if(gb.getFlag() == 1) {
     		System.out.println("정상 호출 중 입니다.");
     		
@@ -410,7 +411,7 @@ public class HomeController {
         		//gb.setPrecurrtemp(0);
         		
         		//count값 초기화
-        		msgValue=1;
+        		gb.setMsgValue(1);
         		
         	}else {
             	userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, gb.getSftime(), sstime);
@@ -418,14 +419,16 @@ public class HomeController {
     	} else {
     		System.out.println("작업 중지중 입니다.");
     	}
-    	//80번 포트 0으로 초기화
-    	client_send(msgValue);
+    	
+    	client_send();
+    	
+    	gb.setMsgValue(0);
     }
     
-    public void client_send (int value) {			
+    public void client_send () {			
 		//1초마다 서버에 msg를 보내 count값을 초기화 해야하는지를 결정
-    	String testMsg = "{\"datacode1\":"+80+",\"dataval1\":"+value+","
-				+ "\"datacode2\":"+"\"80\""+",\"dataval2\":"+"\"0\""+","
+    	String testMsg = "{\"datacode1\":"+80+",\"dataval1\":"+gb.getMsgValue()+","
+				+ "\"datacode2\":"+"\"83\""+",\"dataval2\":"+"\"0\""+","
 						+ "\"datacode3\":"+"\"80\""+",\"dataval3\":"+"\"0\""+"}";
 		int port = 2588;
 		

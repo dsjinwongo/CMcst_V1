@@ -106,6 +106,7 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 			gb.setPrecurrtemp(0);
 		
 		System.out.println("precurrtemp:"+gb.getPrecurrtemp()+"Current_temper:"+gb.getCurrent_temper());
+		
 		if(gb.getPrecurrtemp() != gb.getCurrent_temper() && gb.getSindex()== 0) {
 			//중단 혹은 대기중인 맨 위 등록된 제품의 주문개수, 시간 가져오기
 			if(userService.getStoppedProduct()!=null)
@@ -113,12 +114,18 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 			else
 				vo = userService.getWaitingProduct();
 			
-			//글로벌 변수 설정
-			gb.setSindex(vo.getTableindex());
-			gb.setSordernum(vo.getOrdernum());
-			gb.setSftime(Double.parseDouble(vo.getFtime()));
-			
-			gb.setFlag(1);
+			//제품이 없는데 count된 경우 방지
+			if(vo==null)
+				gb.setMsgValue(1);
+			else
+			{
+				//글로벌 변수 설정
+				gb.setSindex(vo.getTableindex());
+				gb.setSordernum(vo.getOrdernum());
+				gb.setSftime(Double.parseDouble(vo.getFtime()));
+				
+				gb.setFlag(1);
+			}
 		}
 			
 		// TODO Auto-generated method stub
