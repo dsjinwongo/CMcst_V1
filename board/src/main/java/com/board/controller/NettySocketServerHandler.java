@@ -28,6 +28,7 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 	private String readMessage = null;
 	private global_bean gb;
 	private boardVO vo;
+	private static boolean sleepOnce=false;
 
 	
 	public NettySocketServerHandler(global_bean gb, UserService userService) {
@@ -95,42 +96,52 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 	
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception{
-		if(gb.getPrecurrtemp() != gb.getCurrent_temper() && gb.getSindex()!=0) {
-			gb.setPrecurrtemp(gb.getCurrent_temper());
-			gb.setAverageTime(gb.getSftime()+gb.getAverageTime());
-		}else {
-			System.out.println("대기중 입니다");
-		}
 		
+		//생산 완료 후 current_temper는 초기화 되었는데 precurrtemp가 초기화가 안된경우 초기화 
 		if(gb.getPrecurrtemp()>gb.getCurrent_temper())
 			gb.setPrecurrtemp(0);
 		
-		System.out.println("precurrtemp:"+gb.getPrecurrtemp()+"Current_temper:"+gb.getCurrent_temper());
-		
-		if(gb.getPrecurrtemp() != gb.getCurrent_temper() && gb.getSindex()== 0) {
-			//중단 혹은 대기중인 맨 위 등록된 제품의 주문개수, 시간 가져오기
-			if(userService.getStoppedProduct()!=null)
-				vo = userService.getStoppedProduct();
-			else
-				vo = userService.getWaitingProduct();
-			
-			//제품이 없는데 count된 경우 방지
-			if(vo==null)
-				gb.setMsgValue(1);
-			else
+		//제품생산이 진행중일 때 실행하는 로직
+		if(gb.getPrecurrtemp() != gb.getCurrent_temper()) 
+		{
+			//생산중임 제품이 기록되어 있을 때
+			if(gb.getSindex()!=0) 
 			{
-				//글로벌 변수 설정
-				gb.setSindex(vo.getTableindex());
-				gb.setSordernum(vo.getOrdernum());
-				gb.setSftime(Double.parseDouble(vo.getFtime()));
-				
-				gb.setFlag(1);
+				gb.setPrecurrtemp(gb.getCurrent_temper());
+				gb.setAverageTime(gb.getSftime()+gb.getAverageTime());
 			}
+			else //생산중임 제품이 무엇인지 모를 때
+			{
+				//중단 혹은 대기중인 맨 위 등록된 제품의 주문개수, 시간 가져오기
+				if(userService.getStoppedProduct()!=null)
+					vo = userService.getStoppedProduct();
+				else
+					vo = userService.getWaitingProduct();
+				
+				if(vo!=null) 
+				{
+					//첫 변화가 감지되었을 때는 count가 안전히 초기화 되기를 기다림
+					if(vo.getCompletenum()+1==gb.getCurrent_temper())
+					{
+						gb.setFlag(1);
+						gb.setSindex(vo.getTableindex());
+						gb.setSordernum(vo.getOrdernum());
+						gb.setSftime(Double.parseDouble(vo.getFtime()));
+					}
+					else
+					{
+						gb.setMsgValue(1);
+						gb.setStoppedProductCount(vo.getCompletenum()+1);
+					}
+					
+				}
+			}
+		}else 
+		{
+			System.out.println("대기중 입니다");
 		}
-			
-		// TODO Auto-generated method stub
-		//System.out.println(gb.getSindex());
-		//System.out.println(gb.getCurrent_temper());
+		
+		System.out.println("precurrtemp:"+gb.getPrecurrtemp()+"Current_temper:"+gb.getCurrent_temper());
 
 		System.out.println("read complete");
 	}

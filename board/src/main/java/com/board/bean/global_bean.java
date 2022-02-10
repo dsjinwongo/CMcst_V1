@@ -26,5 +26,7 @@ public class global_bean {
 	
 	private int msgValue=0;
 	
+	private int stoppedProductCount=0;
+	
 	private int precurrtemp=0;
 }

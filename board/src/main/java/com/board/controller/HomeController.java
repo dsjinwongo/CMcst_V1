@@ -57,6 +57,7 @@ public class HomeController {
 	private global_bean gb = new global_bean();
 	private int sindex = 0;
 	private int sordernum = 0;
+	private String sstate="";
 	private int scompletenum = 0;
 	private double sftime = 0;
 	private int listcheck = 1;
@@ -303,17 +304,16 @@ public class HomeController {
 		sindex = Integer.parseInt(req.getParameter("sindex"));
 		sordernum = Integer.parseInt(req.getParameter("sordernum"));
 		sftime = Double.parseDouble(req.getParameter("sftime"));		
-		String sstate = req.getParameter("sstate");
+		scompletenum = Integer.parseInt(req.getParameter("scompletenum"));
+		sstate = req.getParameter("sstate");
 		
 		if(sstate.contentEquals("완료됨")) {
 			System.out.println("이미 완료된 작업입니다.");
 			return "redirect:/work.cst";
 		}
 		
-		if(sstate.contentEquals("대기")) {
-			gb.setMsgValue(1);
-		}
-		
+		gb.setMsgValue(1);
+		gb.setStoppedProductCount(scompletenum);
 		gb.setSindex(sindex);
 		gb.setSordernum(sordernum);
 		gb.setSftime(sftime);
@@ -335,8 +335,6 @@ public class HomeController {
 		
     	int sindex = Integer.parseInt(req.getParameter("sindex"));
 		int sordernum = Integer.parseInt(req.getParameter("sordernum"));
-		int scompletenum = Integer.parseInt(req.getParameter("scompletenum"));
-		//int remain = sordernum-scompletenum;
 		
 		System.out.println(sindex);
 		//System.out.println(remain)
@@ -347,11 +345,12 @@ public class HomeController {
 		}else {
 			gb.setFlag(0);
         	userService.stopAction(sindex);
-        	//0번 인덱스는 존재하지 않는 인덱스 이므로 데이터베이스에 연결되지 않는다.
-        	sindex = 0;
         	
         	//인덱스 초기화(자동시작할 때 중단, 대기중인 제품을 읽어와서 초기화하기 위함)
-        	gb.setSindex(sindex);
+        	gb.setSindex(0);
+        	
+        	//다른 제품 시작을 위해 count값 초기화
+        	gb.setMsgValue(1);
 		}
         return "redirect:/work.cst";
     }
@@ -367,7 +366,7 @@ public class HomeController {
     }
     
     //1초간격으로 데이터베이스에 값을 넘겨준다
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedDelay = 1000)
     public void syncAction() {
     	if(gb.getFlag() == 1) {
     		System.out.println("정상 호출 중 입니다.");
@@ -407,11 +406,12 @@ public class HomeController {
         		//인덱스 초기화(자동시작할 때 중단, 대기중인 제품을 읽어와서 초기화하기 위함)
         		gb.setSindex(0);
         		
-        		//다음 제품 자동시작에 영향을 끼치는 것을 방지하기 위해서 초기화
-        		//gb.setPrecurrtemp(0);
-        		
         		//count값 초기화
         		gb.setMsgValue(1);
+        		
+        		//중단되었던 것이 자동시작하며 바로 완료될 때 pre가 초기화 되지 못하는 것을 방지
+        		if(gb.getPrecurrtemp()!=gb.getCurrent_temper())
+        			gb.setPrecurrtemp(gb.getCurrent_temper());
         		
         	}else {
             	userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, gb.getSftime(), sstime);
@@ -423,12 +423,13 @@ public class HomeController {
     	client_send();
     	
     	gb.setMsgValue(0);
+    	gb.setStoppedProductCount(0);
     }
     
     public void client_send () {			
 		//1초마다 서버에 msg를 보내 count값을 초기화 해야하는지를 결정
     	String testMsg = "{\"datacode1\":"+80+",\"dataval1\":"+gb.getMsgValue()+","
-				+ "\"datacode2\":"+"\"83\""+",\"dataval2\":"+"\"0\""+","
+				+ "\"datacode2\":"+83+",\"dataval2\":"+gb.getStoppedProductCount()+","
 						+ "\"datacode3\":"+"\"80\""+",\"dataval3\":"+"\"0\""+"}";
 		int port = 2588;
 		

@@ -193,12 +193,11 @@ boolean login = userId == null ? false : true;
                                         <input type="hidden" name = sstate value = "${list.state}">
                                         <input type="hidden" name = sindex value = "${list.tableindex}">
                                         <input type="hidden" name = sftime value = "${list.ftime}">
-                                 
+                                 		<input type="hidden" name = scompletenum value = "${list.completenum}">
                                    	    <td><input type="submit" value="시작"/></td>
                                     </form>
                                     
-                                    <form method = "post" action = "stopAction.cst" id = startAction>
-                                        <input type="hidden" name = scompletenum value = "${list.completenum}">
+                                    <form method = "post" action = "stopAction.cst" id = stoptAction>
                                         <input type="hidden" name = sordernum value = "${list.ordernum}"> 
                                 		<input type="hidden" name = sindex value = "${list.tableindex}">
                                    	    <td><input type="submit" value="중지"/></td>
