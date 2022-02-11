@@ -133,8 +133,9 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 						gb.setMsgValue(1);
 						gb.setStoppedProductCount(vo.getCompletenum()+1);
 					}
-					
 				}
+				else //제품이 없을때 count 증가 방지
+					gb.setMsgValue(1);
 			}
 		}else 
 		{

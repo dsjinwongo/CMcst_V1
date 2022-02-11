@@ -61,7 +61,7 @@ public class HomeController {
 	private int scompletenum = 0;
 	private double sftime = 0;
 	private int listcheck = 1;
-
+	
 	@PostConstruct
 	private void start() {
 		thread = new Thread(new Runnable() {			
