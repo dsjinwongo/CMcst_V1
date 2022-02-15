@@ -97,8 +97,8 @@ boolean login = userId == null ? false : true;
 									<th>주문수량</th>
 									<th>완료수량</th>
 									<th>진행률</th>
-									<th>1대당 작업시간</th>
-									<th>예상 작업시간(분)</th>
+									<th>1대/평균</th>
+									<th>예상 작업시간</th>
 									<th>예상 완료시각</th>																
 								</tr>
 							</thead>

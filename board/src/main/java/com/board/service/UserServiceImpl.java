@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void startAction(int sindex,int scompletenum, int srating, String sttime, double sftime, int sstime) {
+	public void startAction(int sindex,int scompletenum, int srating, String sttime, String sftime, String sstime) {
 		mapper.startAction(sindex,scompletenum,srating,sttime,sftime,sstime);
 	}
 	

@@ -40,7 +40,7 @@ public interface UserMapper {
 	
 	
 	//시작버튼 동작
-	public void startAction(@Param("sindex")int sindex,@Param("scompletenum")int scompletenum,@Param("srating")int srating, @Param("sttime")String sttime, @Param("sftime")double sftime, @Param("sstime")int sstime);
+	public void startAction(@Param("sindex")int sindex,@Param("scompletenum")int scompletenum,@Param("srating")int srating, @Param("sttime")String sttime, @Param("sftime")String sftime, @Param("sstime")String sstime);
 	
 	//중지버튼 동작
 	public void stopAction(@Param("sindex")int sindex);

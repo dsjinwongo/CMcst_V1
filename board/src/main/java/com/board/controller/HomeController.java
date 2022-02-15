@@ -381,14 +381,22 @@ public class HomeController {
         	cal.setTime(new Date());
         	SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm");
         	
-    		int sstime = (int)(gb.getSftime()*(gb.getSordernum()-(int)gb.getCurrent_temper())/60);
-    		cal.add(Calendar.MINUTE, sstime);
+        	//걸리는 시간(분)
+    		int sstime_min = (int)(gb.getSftime()*(gb.getSordernum()-(int)gb.getCurrent_temper())/60);
+    		cal.add(Calendar.MINUTE, sstime_min);
     		
     		String sttime = sf.format(cal.getTime());
+    		
+    		//걸리는 시간(시,분)
+    		int sstime_hour=sstime_min/60;
+    		sstime_min%=60;
+    		String sstime=sstime_hour+"시간"+sstime_min+"분";
+    		
+    		String sftime_average=gb.getSftime()+"/"+Double.toString(Math.round(gb.getAverageTime()/gb.getCurrent_temper()*100)/100.0);
         	
         	if(gb.getSordernum() <= (int)gb.getCurrent_temper()) {
             	//완료되면 완료상태를 한번 데이터베이스에 저장하고 완료되었습니다 문구 표시 후 flag = 0으로 만들어 작업 중지 다음 작업 준비.
-        		userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, gb.getSftime(), sstime);
+        		userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, sftime_average, sstime);
         		
         		gb.setFlag(0);
         		System.out.println("완료되었습니다");
@@ -414,7 +422,7 @@ public class HomeController {
         			gb.setPrecurrtemp(gb.getCurrent_temper());
         		
         	}else {
-            	userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, gb.getSftime(), sstime);
+            	userService.startAction(gb.getSindex(), gb.getCurrent_temper(), srating, sttime, sftime_average, sstime);
         	}    	
     	} else {
     		System.out.println("작업 중지중 입니다.");
