@@ -97,7 +97,7 @@ boolean login = userId == null ? false : true;
 									<th>주문수량</th>
 									<th>완료수량</th>
 									<th>진행률</th>
-									<th>1대/평균</th>
+									<th>1대/평균(EA)</th>
 									<th>예상 작업시간</th>
 									<th>예상 완료시각</th>																
 								</tr>
@@ -112,8 +112,8 @@ boolean login = userId == null ? false : true;
                 					<td><c:out value="${list.completenum}"/></td>
                 					<td><c:out value="${list.rating}"/>%</td>
                 					<td><c:out value="${list.ftime}"/>초</td>
-                					<td><c:out value="${list.stime}"/>분</td>
-                					<td><c:out value="${list.ttime}"/>분</td>
+                					<td><c:out value="${list.stime}"/></td>
+                					<td><c:out value="${list.ttime}"/></td>
                                     <!-- 추후에 버튼 말고 a 태그에서 controller 작동 할 수 있는 방법을 알면 공간적으로 절약될듯.  -->
             					</tr>
        						</c:forEach>
