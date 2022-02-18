@@ -74,5 +74,7 @@ public interface UserMapper {
 	
 	//대기중인 맨위 제품 불러오기
 	public boardVO getWaitingProduct();
+	
+	public List<String> searchProduct(@Param("searchWord")String searchWord);
 
 }

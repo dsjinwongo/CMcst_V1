@@ -129,5 +129,10 @@ public class UserServiceImpl implements UserService {
 	public boardVO getWaitingProduct() {
 		return mapper.getWaitingProduct();
 	}
+	
+	@Override
+	public List<String> searchProduct(String searchWord) {
+		return mapper.searchProduct(searchWord);
+	}
 
 }

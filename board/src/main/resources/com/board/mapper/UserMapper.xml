@@ -171,4 +171,8 @@
 	<select id = "outAction">
 	 	select * INTO OUTFILE 'TABLEDATA.CSV' FIELDS TERMINATED BY',' ENCLOSED BY'"' ESCAPED BY '\\' LINES TERMINATED BY '\n' FROM cur_table;
 	</select>
+	
+	<select id="searchProduct" parameterType="String" resultType="String">
+		select code from product where code like concat('%',#{searchWord},'%')
+	</select>
 </mapper>

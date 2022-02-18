@@ -5,8 +5,10 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -17,6 +19,8 @@ import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +32,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.board.bean.global_bean;
@@ -460,6 +465,18 @@ public class HomeController {
 
         return "redirect:/cs.cst";
     }
+    
+    @ResponseBody
+	@RequestMapping(value="/wordSearchShow.action", method=RequestMethod.GET, produces="text/plain;charset=UTF-8")
+	public String wordSearchShow(HttpServletRequest request) {
+		
+		String searchWord = request.getParameter("searchWord");
+		
+		//Gson을 활용해서 Json으로 파싱
+		Gson gson = new GsonBuilder().create();
+		
+		return gson.toJson(userService.searchProduct(searchWord));
+	}
 		
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
