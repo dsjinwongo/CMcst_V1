@@ -52,6 +52,8 @@ public class NettySocketServer {
 			f = b.bind(port).sync();
 			f.channel().closeFuture().sync();
 		} catch(InterruptedException e) {
+			//죽었을 때 에러가 잡히면 gb.setFlag(0);
+			System.out.println("에러를 잡았다 위치는 Server");
 			e.printStackTrace();
 		}
 	}

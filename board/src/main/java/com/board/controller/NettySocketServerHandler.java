@@ -28,8 +28,6 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 	private String readMessage = null;
 	private global_bean gb;
 	private boardVO vo;
-	private static boolean sleepOnce=false;
-
 	
 	public NettySocketServerHandler(global_bean gb, UserService userService) {
 		this.userService = userService;
@@ -150,6 +148,8 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
 		// TODO Auto-generated method stub
+		System.out.println("에러를 잡았다 위치는 ServerHandler의 맨아래");
+		//죽었을 때 에러가 잡히면 gb.setFlag(0);
 		cause.printStackTrace();
 		ctx.close();
 	}

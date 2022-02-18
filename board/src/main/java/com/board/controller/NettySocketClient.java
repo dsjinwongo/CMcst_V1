@@ -1,5 +1,7 @@
 package com.board.controller;
 
+import com.board.bean.global_bean;
+
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -13,8 +15,9 @@ public class NettySocketClient {
 	private String msg;
 	private String host;
 	private int port;
+	private global_bean gb;
 	
-	public NettySocketClient(String host, int port, String msg) {
+	public NettySocketClient(global_bean gb, String host, int port, String msg) {
 		this.msg = msg;
 		this.host = host;
 		this.port = port;
@@ -51,6 +54,7 @@ public class NettySocketClient {
 			} catch (Exception e) {
 				System.out.println("connection fail");
 				//e.printStackTrace();
+				gb.setFlag(0);
 			}
 			
 		} catch (Exception e) {	

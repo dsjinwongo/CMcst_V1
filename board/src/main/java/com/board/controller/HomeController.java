@@ -460,7 +460,7 @@ public class HomeController {
 		
 		
 		if(gb.getClient_host() != null) {
-			client = new NettySocketClient(gb.getClient_host(),port,testMsg);
+			client = new NettySocketClient(gb, gb.getClient_host(),port,testMsg);
 			
 			client.run();
 		}

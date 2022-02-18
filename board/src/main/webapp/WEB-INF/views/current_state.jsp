@@ -87,8 +87,8 @@ boolean login = userId == null ? false : true;
 				<div>
 					<c:set var="name" value="1" />
 					<c:choose>
-					<c:when test="${name eq flag}"> <span style="color:blue;">통신이 연견되었습니다.</span> </c:when>
-					<c:when test="${name ne flag}"> <span style="color:red;">통신이 끊어졌습니다.</span> </c:when>
+					<c:when test="${name eq flag}"> <span style="color:blue;">통신이 연결되었습니다.</span> </c:when>
+					<c:when test="${name ne flag}"> <span style="color:red;">작업이 중단되었거나 통신이 끊어졌습니다.</span> </c:when>
 					</c:choose>
 				</div>
 				<section id="banner" style="padding-top:30px;">

@@ -38,6 +38,8 @@ public class NettySocketClientHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		System.out.println(cause);
+		System.out.println("에러를 잡았다 위치는 ClientHandler의 맨아래");
+		//죽었을 때 에러가 잡히면 gb.setFlag(0);
 		ctx.close();
 	}
 }
