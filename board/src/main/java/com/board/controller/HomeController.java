@@ -255,7 +255,7 @@ public class HomeController {
 		
 		
 		model.addAttribute("Current_temper",gb.getCurrent_temper());
-		
+		model.addAttribute("flag",gb.getFlag());
 		// model.addAttribute를 통해 프론트에서 list 변수를 통해 userService.getList()속 값을 list라는 변수를 통해 접근 가능 하도록 한다.
 		model.addAttribute("list",userService.getList());
 		return "/current_state";
