@@ -86,7 +86,7 @@ boolean login = userId == null ? false : true;
 				</font>
 				
 				<section id="banner">
-					<div style = "width:100%";>
+					<div style = "width:100%;">
 						<table border="1px" id="curr_Table">
 							<thead>
 								<tr>

@@ -201,8 +201,9 @@ public class HomeController {
 	
 	//서버에 현황판 내용 저장
 	@RequestMapping(value = "/enrollAction.cst",method = RequestMethod.POST)
-	public String enroll(HttpSession session, HttpServletResponse res, HttpServletRequest req){
+	public String enroll(HttpSession session, HttpServletResponse res, HttpServletRequest req, Model model) throws IOException {
 		
+		try {
 			double ftime = Double.parseDouble(req.getParameter("ftime"));
 			int ordernum = Integer.parseInt(req.getParameter("ordernum"));
 			int stime = (int)(ftime*ordernum)/60; //분 단위 계산
@@ -224,8 +225,19 @@ public class HomeController {
 			userService.updateindex1();
 	        userService.updateindex2();
 	        userService.updateindex3();
-	        
-			return "redirect:/work.cst";
+			
+		}catch(Exception e){
+			alert("올바른 입력이 아닙니다.",res);
+			e.printStackTrace();
+		}finally {
+			
+		}
+		model.addAttribute("list",userService.getList());
+		Gson gson = new GsonBuilder().create();
+		model.addAttribute("product_json", gson.toJson(userService.getProduct()));
+		model.addAttribute("product",userService.getProduct());
+		
+		return "/work_enroll";
 	}
 	
 	// 현황판 접근 and 게시글 표시

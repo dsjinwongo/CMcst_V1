@@ -227,6 +227,7 @@ select option[value=""][disabled] {
 		}
 	</script>
 	<script>
+		// ref: https://programmer93.tistory.com/2
 		$(function() { //화면 다 뜨면 시작
 			$("#searchInput").autocomplete({
 				source : function(request, response) {
